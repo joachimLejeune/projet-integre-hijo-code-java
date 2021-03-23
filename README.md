@@ -10,7 +10,8 @@ Gestion de commandes dans un magasin de bricolage
 
 Explication :  
 
-Au sein d’une grande surface spécialisée dans le bricolage, la direction souhaite dissocier les activités des caissières liés au passage d’un flot ininterrompu de clients, de l’encodage et la réalisation des commandes faites à la société.  
+Au sein d’une grande surface spécialisée dans le bricolage, la direction souhaite dissocier les activités des caissières liés au passage d’un flot ininterrompu de clients, de l’encodage et la réalisation des commandes faites à la société. 
+La société possède un seul site. 
 
 La plupart des habitués ont, au fil du temps, pris l’habitude d’envoyer des mails ou de directement téléphoner pour passer leur commande. Commandes généralement assez conséquentes compte tenu des activités professionnelles des clients en question. Ce qui nécessitait parfois de devoir attendre qu’une caisse se libère et que la caissière, enfin disponible, l’encode.  
 

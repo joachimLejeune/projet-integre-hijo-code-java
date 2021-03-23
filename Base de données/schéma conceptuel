@@ -1,0 +1,9 @@
+@startuml
+    class Employé
+    class Produit
+    class Rayon
+    class Client
+    class Magasin
+    class Facture
+    
+@enduml
