@@ -1,23 +1,49 @@
 # Projet Intégré HIJO
 
-Projet intégré Java Base de données
+Projet intégré Java Base de données 
 
-1. Idée projet : 
-    1. Interface de préparation de commandes d’un magasin de bricolage qui afficherait au moins 3 fenêtres, une première dans laquelle on effectuerait les choix et les validations vers un panier, les recherches éventuelles qui s'afficheraient dans une autre fenêtre et une dernière fenêtre qui ferait office de récapitulatif/facture temps réel du panier.
+Dossier de l’énoncé 
 
-2. Domaine d’application : 
-    1. Gestion de commandes dans un magasin de bricolage
- 
-3. Base de données
-    1. Schéma conceptuel de la base de données :
-    2. Schéma logique des tables :
-    3. Documentations : 
- 
-4. Fonctionnalités minimales de l’application (partie Java):
-    1.	Insertion via formulaire d’encodage
-    2.	Modification
-    3.	Suppression
-    4.	Listing de table
-    5.	Recherches
-    6.	Tache métier
+Domaine d’application :  
 
+Gestion de commandes dans un magasin de bricolage 
+
+Explication :  
+
+Au sein d’une grande surface spécialisée dans le bricolage, la direction souhaite dissocier les activités des caissières liés au passage d’un flot ininterrompu de clients, de l’encodage et la réalisation des commandes faites à la société.  
+
+La plupart des habitués ont, au fil du temps, pris l’habitude d’envoyer des mails ou de directement téléphoner pour passer leur commande. Commandes généralement assez conséquentes compte tenu des activités professionnelles des clients en question. Ce qui nécessitait parfois de devoir attendre qu’une caisse se libère et que la caissière, enfin disponible, l’encode.  
+
+Au final ce que souhaite le client (la direction) c’est de permettre de centraliser la réception des commandes (via emails et/ou téléphone) et leur traitement sur le même poste de travail, dévolu à cette tâche. 
+
+L’encodage devra pouvoir se faire manuellement, être sauvegardé, imprimé (voies numérique ou papier, ici représenté par un affichage à l’écran de la facture complète), pour être finalement transmis au client. 
+
+Saut de page
+ 
+
+Base de données 
+
+Schéma conceptuel de la base de données : 
+
+Schéma logique des tables : 
+
+Documentations :  
+
+Saut de page
+ 
+
+Fonctionnalités minimales de l’application (partie Java): 
+
+Insertion via formulaire d’encodage 
+
+Modification 
+
+Suppression 
+
+Listing de table 
+
+Recherches 
+
+Tache métier 
+
+ 
