@@ -1,9 +1,45 @@
 @startuml
-    class Employé
-    class Produit
-    class Rayon
-    class Client
-    class Magasin
-    class Facture
     
+    entity Employee{
+        {static}numEmployee
+        firstName
+        lastName
+        birthdate
+        address
+        phoneNumber
+        email
+    }
+    entity Customer{
+        {static}numCustomer
+        firstName
+        lastName
+        birthdate
+        address
+        phoneNumber
+        email
+    }
+    entity Article{
+        {static}idArticle
+        wording
+        price
+        VAT
+    }
+    entity Aisle{
+        {static}numAisle
+        wording
+        nbShelves
+    }
+    entity Bill{
+        {static}idBill
+        company address
+        date
+    }
+    
+    
+    Article }o--|| Aisle : Storage
+    Bill }o--o{ Article : Listing
+    Employee ||--o{ Bill : Creation
+    Customer ||--o{ Bill : Reception
+    Employee }|--o{ Aisle : Restocking
+
 @enduml
