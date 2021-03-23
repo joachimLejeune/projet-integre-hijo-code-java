@@ -19,7 +19,7 @@ Au final ce que souhaite le client (la direction) c’est de permettre de centra
 
 L’encodage devra pouvoir se faire manuellement, être sauvegardé, imprimé (voies numérique ou papier, ici représenté par un affichage à l’écran de la facture complète), pour être finalement transmis au client. 
 
-Saut de page
+
  
 
 Base de données 
@@ -30,7 +30,7 @@ Schéma logique des tables :
 
 Documentations :  
 
-Saut de page
+
  
 
 Fonctionnalités minimales de l’application (partie Java): 
