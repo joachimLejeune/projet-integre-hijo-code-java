@@ -1,37 +1,37 @@
 @startuml
     
     entity Employee{
-        {static}numEmployee
-        firstName
-        lastName
-        birthdate
+        {static}num_employee
+        first_name
+        last_name
+        birth_date
         address
-        phoneNumber
+        phone_number
         email
     }
     entity Customer{
-        {static}numCustomer
-        firstName
-        lastName
-        birthdate
+        {static}num_customer
+        first_name
+        last_name
+        birth_date
         address
-        phoneNumber
+        phone_number
         email
     }
     entity Article{
-        {static}idArticle
+        {static}id_article
         wording
         price
         VAT
     }
     entity Aisle{
-        {static}numAisle
+        {static}num_aisle
         wording
-        nbShelves
+        nb_shelves
     }
     entity Bill{
-        {static}idBill
-        company address
+        {static}id_bill
+        company_address
         date
     }
     
