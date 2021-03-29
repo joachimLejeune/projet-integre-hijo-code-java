@@ -1,0 +1,55 @@
+@startuml
+    
+    entity Employee{
+        {static}num_employee
+        first_name
+        last_name
+        birth_date
+        address
+        phone_number
+        email
+    }
+    entity Customer{
+        {static}num_customer
+        first_name
+        last_name
+        birth_date
+        address
+        phone_number
+        email
+    }
+    entity Article{
+        {static}id_article
+        wording
+        price
+        VAT
+    }
+    entity Aisle{
+        {static}num_aisle
+        wording
+        nb_shelves
+    }
+    entity Bill{
+        {static}id_bill
+        company_address
+        date
+    }
+    entity Listing{
+        bill
+        article
+        quantity
+    }
+    entity Restocking{
+        employee
+        aisle
+    }
+    
+    Restocking::employee --> Employee::num_employee
+    Restocking::aisle --> Aisle::num_aisle
+    Bill::employee --> Employee::num_employee
+    Bill::customer --> Customer::num_customer
+    Listing::bill --> Bill::id_bill
+    Listing::article --> Article::id_article
+    Article::aisle -left-> Aisle::num_aisle
+
+@enduml
