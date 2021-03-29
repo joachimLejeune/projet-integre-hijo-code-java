@@ -32,8 +32,10 @@
     }
     entity Bill{
         {static}id_bill
-        company_address
         date
+        isDiscountBeforeDeadline
+        discountCoupon[0..1]
+        possibleRemarks[0..1]
         employee
         customer
     }
