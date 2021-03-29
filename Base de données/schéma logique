@@ -23,6 +23,7 @@
         wording
         price
         VAT
+        aisle
     }
     entity Aisle{
         {static}num_aisle
@@ -33,6 +34,8 @@
         {static}id_bill
         company_address
         date
+        employee
+        customer
     }
     entity Listing{
         bill
