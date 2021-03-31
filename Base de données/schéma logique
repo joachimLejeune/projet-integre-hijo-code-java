@@ -34,6 +34,7 @@
         {static}id_bill
         date
         isDiscountBeforeDeadline
+        discountBeforeDeadline[0..1]
         discountCoupon[0..1]
         possibleRemarks[0..1]
         employee
@@ -44,13 +45,8 @@
         article
         quantity
     }
-    entity Restocking{
-        employee
-        aisle
-    }
     
-    Restocking::employee --> Employee::num_employee
-    Restocking::aisle --> Aisle::num_aisle
+    
     Bill::employee --> Employee::num_employee
     Bill::customer --> Customer::num_customer
     Listing::bill --> Bill::id_bill
