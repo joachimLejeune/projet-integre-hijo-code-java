@@ -85,7 +85,9 @@ public class MainMenuWindow extends JFrame {
         // on associe au MainMenu un FlowLayout pour le positionnement des labels
         this.setLayout(new FlowLayout());
         mainContainer = this.getContentPane();
-        mainContainer.add(welcomeMessage);
+        mainContainer.setLayout(new BorderLayout());
+        welcomeMessage.setHorizontalAlignment(SwingConstants.CENTER);
+        mainContainer.add(welcomeMessage,BorderLayout.NORTH);
 
 
 
@@ -134,7 +136,7 @@ public class MainMenuWindow extends JFrame {
 //            mainContainer.add(registrationForm);
 //            mainContainer.repaint();
 //            setVisible(true);
-            setBounds(800,50,635,1000);
+            setBounds(650,150,635,635);
             NewBillRegistrationForm newBillRegistrationForm = new NewBillRegistrationForm();
             mainContainer.removeAll();
             mainContainer.add(newBillRegistrationForm);
