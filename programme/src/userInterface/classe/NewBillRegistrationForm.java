@@ -11,7 +11,7 @@ public class NewBillRegistrationForm extends JPanel {
     private JPanel articlesButtonsFormPanel;
     private JPanel articlesFormPanel;
     private JPanel supplementsFormPanel;
-    private static String compagnyAddress = "Rue de la Joyeuseté 42";
+    private static String compagnyAddress = "Rue de la Joyeuseté 42, 5000 Namur";
 
     public NewBillRegistrationForm(){
         this.setLayout(new BorderLayout());
@@ -50,8 +50,9 @@ public class NewBillRegistrationForm extends JPanel {
 
         idLabel = new JLabel("Numéro de la facture :");
         idTextField = new JTextField();
+        idTextField.setEnabled(false);
         addressLabel = new JLabel("adresse de la société :");
-        adressTextField = new JTextField("Rue de la Joyeuseté 42, 5000 Namur");
+        adressTextField = new JTextField(compagnyAddress);
         adressTextField.setEnabled(false);
         dateLabel = new JLabel("Date de facturation :");
         dateSpinner = new JSpinner(new SpinnerDateModel());

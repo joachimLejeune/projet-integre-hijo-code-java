@@ -108,12 +108,6 @@ public class MainMenuWindow extends JFrame {
     private class CreditsListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-//            IesnInformation iesnInformation;
-//            iesnInformation = new IesnInformation();
-//            mainContainer.removeAll();
-//            mainContainer.add(iesnInformation);
-//            mainContainer.repaint();
-//            setVisible(true);
             OurCompanyInformation ourCompanyInformation = new OurCompanyInformation();
             mainContainer.removeAll();
             mainContainer.add(ourCompanyInformation);
