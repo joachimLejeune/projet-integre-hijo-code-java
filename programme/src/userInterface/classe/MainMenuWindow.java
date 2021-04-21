@@ -78,9 +78,13 @@ public class MainMenuWindow extends JFrame {
         HelpListener helpListener = new HelpListener();
         helpMenu.addActionListener(helpListener);
 
-        // on gère le clic sur inscription
+        // on gère le clic sur nouvelle facture
         RegistrationListener registrationListener = new RegistrationListener();
         newBillMenu.addActionListener(registrationListener);
+
+        // on gère le clic sur modification
+        ModificationListener modificationListener = new ModificationListener();
+        modificationBillMenu.addActionListener(modificationListener);
 
         // on associe au MainMenu un FlowLayout pour le positionnement des labels
         this.setLayout(new FlowLayout());
@@ -98,6 +102,7 @@ public class MainMenuWindow extends JFrame {
     public Container getMainContainer() {
         return mainContainer;
     }
+
 
     private class ExitListener implements ActionListener {
         @Override
@@ -136,6 +141,18 @@ public class MainMenuWindow extends JFrame {
             mainContainer.add(newBillRegistrationForm);
             mainContainer.repaint();
             setVisible(true);
+        }
+    }
+    private class ModificationListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            setBounds(650,150,635,635);
+            NewModificationBillForm newModificationBillForm = new NewModificationBillForm();
+            mainContainer.removeAll();
+            mainContainer.add(newModificationBillForm);
+            mainContainer.repaint();
+            setVisible(true);
+
         }
     }
 }
