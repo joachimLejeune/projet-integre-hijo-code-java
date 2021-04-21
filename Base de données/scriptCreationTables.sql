@@ -54,7 +54,6 @@ CREATE TABLE article(
 		FOREIGN KEY(aisle)
         REFERENCES aisle(num_aisle)
 );
-
 CREATE TABLE listing(
 	quantity INTEGER NOT NULL,
     price DOUBLE NOT NULL,

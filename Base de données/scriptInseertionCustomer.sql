@@ -1,0 +1,2 @@
+INSERT INTO customer(num_customer, first_name, last_name, birth_date, address, phone_number, email) VALUES(1,'Françoise','Dubisy',str_to_date('01-01-1975','%d-%m-%Y'),'Rue Java',0477000000,null);
+INSERT INTO customer(num_customer, first_name, last_name, birth_date, address, phone_number, email) VALUES(2,'Chantal','Bertrand',str_to_date('02-02-1975','%d-%m-%Y'),'Rue DB',0477000001,null);

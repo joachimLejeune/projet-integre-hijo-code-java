@@ -1,0 +1,2 @@
+INSERT INTO employee(num_employee, first_name,last_name,birth_date,address,phone_number,email) VALUES(1,'Hislat','Akapaer',str_to_date('9-10-1998','%d-%m-%Y'),'Rue de la réussite 42 5000Namur',0474000000,null);
+INSERT INTO employee(num_employee, first_name,last_name,birth_date,address,phone_number,email) VALUES(2,'Joachim','Lejeune',str_to_date('18-12-1987','%d-%m-%Y'),'Chaussée de marche 250 5100 Jambes',0474000001,'etu44137@henallux.be');
