@@ -47,11 +47,11 @@ public class MainMenuWindow extends JFrame {
 
         // Menu facture
         billMenu = new JMenu("Facture");
-        newBillMenu = new JMenuItem("Nouvelle facture");
+        newBillMenu = new JMenuItem("Nouvelle");
         billMenu.add(newBillMenu);
-        modificationBillMenu = new JMenuItem("Modification facture");
+        modificationBillMenu = new JMenuItem("Modification");
         billMenu.add(modificationBillMenu);
-        deleteBillMenu = new JMenuItem("Supprimer facture");
+        deleteBillMenu = new JMenuItem("Supprimer");
         billMenu.add(deleteBillMenu);
         billMenu.setMnemonic('G');
         menuBar.add(billMenu);
