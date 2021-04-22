@@ -1,5 +1,8 @@
 package userInterface.classe;
 
+import controller.*;
+import model.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,6 +15,8 @@ public class NewModificationBillForm extends JPanel {
     private JPanel articlesFormPanel;
     private JPanel supplementsFormPanel;
     private static String compagnyAddress = "Rue de la Joyeuseté 42, 5000 Namur";
+
+    private ApplicationControler controller; // servira à la communication avec la couche en dessous
 
     public NewModificationBillForm(){
         this.setLayout(new BorderLayout());
@@ -27,6 +32,7 @@ public class NewModificationBillForm extends JPanel {
         articlesButtonsFormPanel = new JPanel();
         articlesButtonsFormPanel = ArticlesButtonsFormPanelBuild();
         groupButtonsListing.add(articlesButtonsFormPanel,BorderLayout.NORTH);
+
 
         articlesFormPanel = new JPanel();
         articlesFormPanel = ArticlesFormPanelBuild();
@@ -50,7 +56,7 @@ public class NewModificationBillForm extends JPanel {
 
         idLabel = new JLabel("Numéro de la facture :");
         idTextField = new JTextField();
-        idTextField.setEnabled(false);
+        idTextField.setEnabled(true);
         addressLabel = new JLabel("adresse de la société :");
         adressTextField = new JTextField(compagnyAddress);
         adressTextField.setEnabled(false);
@@ -58,8 +64,10 @@ public class NewModificationBillForm extends JPanel {
         dateSpinner = new JSpinner(new SpinnerDateModel());
         employeeLabel = new JLabel("Employé :");
         employeeComboBox = new JComboBox();
+        employeeComboBox.setEnabled(false);
         customerLabel = new JLabel("Client :");
         customerComboBox = new JComboBox();
+        customerComboBox.setEnabled(false);
 
         informationsFormPanel.add(idLabel);
         informationsFormPanel.add(idTextField);
@@ -77,15 +85,22 @@ public class NewModificationBillForm extends JPanel {
         return informationsFormPanel;
     }
     public JPanel ArticlesButtonsFormPanelBuild(){
-        JButton addArticleButton, modArticleButton, delArticleButton;
-        addArticleButton = new JButton("Ajouter un article");
-        modArticleButton = new JButton("Modifier un article");
-        delArticleButton = new JButton("Supprimer un article");
-        articlesButtonsFormPanel.add(addArticleButton,BorderLayout.WEST);
-        articlesButtonsFormPanel.add(modArticleButton,BorderLayout.CENTER);
-        articlesButtonsFormPanel.add(delArticleButton,BorderLayout.EAST);
+//        JButton addArticleButton, modArticleButton, delArticleButton;
+//        addArticleButton = new JButton("Ajouter un article");
+//        modArticleButton = new JButton("Modifier un article");
+//        delArticleButton = new JButton("Supprimer un article");
+//        articlesButtonsFormPanel.add(addArticleButton,BorderLayout.WEST);
+//        articlesButtonsFormPanel.add(modArticleButton,BorderLayout.CENTER);
+//        articlesButtonsFormPanel.add(delArticleButton,BorderLayout.EAST);
+//
+//        articlesButtonsFormPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
 
-        articlesButtonsFormPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+        JButton searchButton;
+        searchButton = new JButton("Rechercher");
+        articlesButtonsFormPanel.add(searchButton);
+
+        SearchButtonListener searchButtonListener = new SearchButtonListener();
+        searchButton.addActionListener(searchButtonListener);
 
         return articlesButtonsFormPanel;
     }
@@ -131,4 +146,26 @@ public class NewModificationBillForm extends JPanel {
         return supplementsFormPanel;
     }
 
+    public class SearchButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // on test si on a rentré un numéro de facture
+            if(((JTextField)informationsFormPanel.getComponent(1)).getText().length()<=0){
+                JOptionPane.showMessageDialog(null,"Vous avez oublié de mettre le numéro de la facture");
+            }
+            else{
+                articlesButtonsFormPanel.removeAll();
+                JButton addArticleButton, modArticleButton, delArticleButton;
+                addArticleButton = new JButton("Ajouter un article");
+                modArticleButton = new JButton("Modifier un article");
+                delArticleButton = new JButton("Supprimer un article");
+                articlesButtonsFormPanel.add(addArticleButton,BorderLayout.WEST);
+                articlesButtonsFormPanel.add(modArticleButton,BorderLayout.CENTER);
+                articlesButtonsFormPanel.add(delArticleButton,BorderLayout.EAST);
+
+                articlesButtonsFormPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+            }
+
+        }
+    }
 }

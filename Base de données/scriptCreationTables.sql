@@ -45,9 +45,9 @@ CREATE TABLE aisle(
 );
 CREATE TABLE article(
 	id_article INTEGER,
-    wording VARCHAR(20) NOT NULL,
+    wording VARCHAR(50) NOT NULL,
     price DOUBLE NOT NULL CONSTRAINT price_article_cst CHECK(price > 0),
-    vat DOUBLE NOT NULL CONSTRAINT vat_article_cst CHECK(vat IN(0, 6, 21)),
+    vat DOUBLE NOT NULL CONSTRAINT vat_article_cst CHECK(vat IN(0, 0.06, 0.21)),
     aisle INTEGER NOT NULL,
     CONSTRAINT id_article_pk PRIMARY KEY(id_article),
     CONSTRAINT aisle_fk

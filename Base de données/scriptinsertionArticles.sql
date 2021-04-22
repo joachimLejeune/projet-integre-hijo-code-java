@@ -1,0 +1,14 @@
+INSERT INTO article VALUES(1, 'rivet(10pcs)', 1.89, 0.06, 1);
+INSERT INTO article VALUES(2, 'clou acier 8mm(50pcs)', 3.40, 0.06, 1);
+INSERT INTO article VALUES(3, 'marteau "Bulldog" tête antichoc', 20.39, 0.06, 1);
+INSERT INTO article VALUES(4, 'pot en céramique(4pcs)', 8.89, 0.06, 2);
+INSERT INTO article VALUES(5, 'terreau 15kg', 15.25, 0.06, 2);
+INSERT INTO article VALUES(6, 'algoflash(1L)', 4.68, 0.06, 2);
+INSERT INTO article VALUES(7, 'rivet(10pcs)', 1.89, 0.06, 1);
+INSERT INTO article VALUES(8, 'plant de hêtre 5mois', 18.89, 0.06, 3);
+INSERT INTO article VALUES(9, 'serre-joints', 1.89, 0.06, 4);
+INSERT INTO article VALUES(10, 'planche de sapin 3mx4m', 26.89, 0.06, 5);
+INSERT INTO article VALUES(11, 'sépia acrylic(500ml)', 3.00, 0.06, 6);
+INSERT INTO article VALUES(12, 'magenta acrylic(500ml)', 3.00, 0.06, 6);
+INSERT INTO article VALUES(13, 'lampe sur pied', 5.12, 0.06, 7);
+INSERT INTO article VALUES(14, 'Dremel modéle 2019', 80.50, 0.06, 8);

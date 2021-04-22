@@ -1,5 +1,8 @@
 package userInterface.classe;
 
+import controller.*;
+import model.*;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -12,6 +15,8 @@ public class NewBillRegistrationForm extends JPanel {
     private JPanel articlesFormPanel;
     private JPanel supplementsFormPanel;
     private static String compagnyAddress = "Rue de la Joyeuseté 42, 5000 Namur";
+
+    private ApplicationControler controller; // servira à la communication avec la couche en dessous
 
     public NewBillRegistrationForm(){
         this.setLayout(new BorderLayout());
@@ -60,6 +65,7 @@ public class NewBillRegistrationForm extends JPanel {
         employeeComboBox = new JComboBox();
         customerLabel = new JLabel("Client :");
         customerComboBox = new JComboBox();
+
 
         informationsFormPanel.add(idLabel);
         informationsFormPanel.add(idTextField);
