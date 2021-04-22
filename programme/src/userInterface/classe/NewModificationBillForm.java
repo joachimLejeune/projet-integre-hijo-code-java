@@ -138,7 +138,7 @@ public class NewModificationBillForm extends JPanel {
 
         supplementsFormPanel.add(discountDeadLineGroup,BorderLayout.CENTER);
 
-        validateButton = new JButton("Valider la commande");
+        validateButton = new JButton("Valider la modification");
         supplementsFormPanel.add(validateButton,BorderLayout.SOUTH);
 
         supplementsFormPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));

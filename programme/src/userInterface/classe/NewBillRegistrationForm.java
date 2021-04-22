@@ -1,11 +1,13 @@
 package userInterface.classe;
 
 import controller.*;
+import exception.AllEmployeesException;
 import model.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -45,8 +47,21 @@ public class NewBillRegistrationForm extends JPanel {
         this.add(supplementsFormPanel,BorderLayout.SOUTH);
 
 
+        setController(new ApplicationControler());
+        ArrayList<Employee> employees = controller.getAllEmployees();
+//        try{
+//            ArrayList<Employee> employees = controller.getAllEmployees();
+//        }
+//        catch (AllEmployeesException e){
+//            JOptionPane.showMessageDialog(null,e.getMessage());
+//        }
 
     }
+
+    private void setController(ApplicationControler applicationControler) {
+        this.controller = applicationControler;
+    }
+
     public JPanel InformationsFormPanelBuild(){
         JLabel idLabel, addressLabel, dateLabel, employeeLabel, customerLabel;
         JTextField idTextField, adressTextField;
