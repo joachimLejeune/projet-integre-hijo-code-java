@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="51485bfb-78fe-4268-948d-fc38865ceeee" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/programme/src/Principal.java" beforeDir="false" afterPath="$PROJECT_DIR$/programme/src/Principal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/schéma conceptuel.png" beforeDir="false" afterPath="$PROJECT_DIR$/schéma conceptuel.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/schéma logique.png" beforeDir="false" afterPath="$PROJECT_DIR$/schéma logique.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/programme/src/dataAccess/BillDBAcces.java" beforeDir="false" afterPath="$PROJECT_DIR$/programme/src/dataAccess/BillDBAcces.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +21,20 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/programme" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -35,6 +46,7 @@
       <updated>1616594520238</updated>
       <workItem from="1616594521600" duration="33000" />
       <workItem from="1617198669835" duration="20000" />
+      <workItem from="1619436428118" duration="65000" />
     </task>
     <servers />
   </component>

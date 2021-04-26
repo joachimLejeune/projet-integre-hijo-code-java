@@ -26,6 +26,10 @@ public class Employee {
         setEmail(email);
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
     public void setNumEmployee(Integer numEmployee) throws NumEmployeeException {
         if (numEmployee instanceof Integer) {
             this.numEmployee = numEmployee;

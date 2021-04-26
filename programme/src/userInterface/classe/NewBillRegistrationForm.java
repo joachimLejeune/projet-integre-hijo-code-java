@@ -2,11 +2,16 @@ package userInterface.classe;
 
 import controller.*;
 import exception.AllEmployeesException;
+import exception.EmailException;
+import exception.NumEmployeeException;
+import exception.PhoneNumberException;
 import model.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,16 +52,14 @@ public class NewBillRegistrationForm extends JPanel {
         this.add(supplementsFormPanel,BorderLayout.SOUTH);
 
 
-        setController(new ApplicationControler());
-        ArrayList<Employee> employees = controller.getAllEmployees();
-//        try{
-//            ArrayList<Employee> employees = controller.getAllEmployees();
-//        }
-//        catch (AllEmployeesException e){
-//            JOptionPane.showMessageDialog(null,e.getMessage());
-//        }
+
+
+
+
+
 
     }
+
 
     private void setController(ApplicationControler applicationControler) {
         this.controller = applicationControler;
@@ -80,6 +83,28 @@ public class NewBillRegistrationForm extends JPanel {
         employeeComboBox = new JComboBox();
         customerLabel = new JLabel("Client :");
         customerComboBox = new JComboBox();
+
+        setController(new ApplicationControler());
+        try{
+            ArrayList<Employee> employees = controller.getAllEmployees();
+            for(Employee employeeLu : employees){
+                employeeComboBox.addItem(employeeLu);
+            }
+        }
+        catch (AllEmployeesException e){
+            JOptionPane.showMessageDialog(null,e.getMessage());
+        } catch (EmailException e) {
+            e.printStackTrace();
+        } catch (PhoneNumberException e) {
+            e.printStackTrace();
+        } catch (NumEmployeeException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
 
 
         informationsFormPanel.add(idLabel);
