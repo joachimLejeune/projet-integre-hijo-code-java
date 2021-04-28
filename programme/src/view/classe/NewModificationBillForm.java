@@ -1,4 +1,4 @@
-package userInterface.classe;
+package view.classe;
 
 import controller.*;
 import model.*;

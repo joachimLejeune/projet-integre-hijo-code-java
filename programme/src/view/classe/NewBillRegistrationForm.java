@@ -1,20 +1,15 @@
-package userInterface.classe;
+package view.classe;
 
 import controller.*;
 import exception.AllEmployeesException;
 import exception.EmailException;
-import exception.NumEmployeeException;
+import exception.NumPersonneException;
 import exception.PhoneNumberException;
 import model.*;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 public class NewBillRegistrationForm extends JPanel {
     private JPanel informationsFormPanel;
@@ -51,13 +46,6 @@ public class NewBillRegistrationForm extends JPanel {
 
         this.add(supplementsFormPanel,BorderLayout.SOUTH);
 
-
-
-
-
-
-
-
     }
 
 
@@ -88,7 +76,7 @@ public class NewBillRegistrationForm extends JPanel {
         try{
             ArrayList<Employee> employees = controller.getAllEmployees();
             for(Employee employeeLu : employees){
-                employeeComboBox.addItem(employeeLu);
+                employeeComboBox.addItem(employeeLu.getFirstName() + " " +employeeLu.getLastName());
             }
         }
         catch (AllEmployeesException e){
@@ -97,16 +85,9 @@ public class NewBillRegistrationForm extends JPanel {
             e.printStackTrace();
         } catch (PhoneNumberException e) {
             e.printStackTrace();
-        } catch (NumEmployeeException e) {
+        } catch (NumPersonneException e) {
             e.printStackTrace();
         }
-
-
-
-
-
-
-
         informationsFormPanel.add(idLabel);
         informationsFormPanel.add(idTextField);
         informationsFormPanel.add(addressLabel);

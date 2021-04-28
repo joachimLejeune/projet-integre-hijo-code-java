@@ -1,10 +1,9 @@
 package model;
 
 import exception.EmailException;
-import exception.NumEmployeeException;
+import exception.NumPersonneException;
 import exception.PhoneNumberException;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class Employee {
@@ -16,25 +15,31 @@ public class Employee {
     private Integer phoneNumber;
     private String email;
 
-    public Employee(Integer numEmployee, String firstName, String lastName, GregorianCalendar birthDate, String address, Integer phoneNumber, String email) throws EmailException,NumEmployeeException, PhoneNumberException{
+    public Employee(Integer numEmployee, String firstName, String lastName, GregorianCalendar birthDate, String address, Integer phoneNumber, String email) throws NumPersonneException, PhoneNumberException{
         setNumEmployee(numEmployee);
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.address = address;
         setPhoneNumber(phoneNumber);
-        setEmail(email);
+        this.email = email;
     }
+    public Employee(Integer numEmployee, String firstName, String lastName, GregorianCalendar birthDate, String address, Integer phoneNumber) throws NumPersonneException, PhoneNumberException{
+        this(numEmployee,firstName,lastName,birthDate,address,phoneNumber," ");
 
+    }
     public String getLastName() {
         return lastName;
     }
+    public String getFirstName() {
+        return firstName;
+    }
 
-    public void setNumEmployee(Integer numEmployee) throws NumEmployeeException {
+    public void setNumEmployee(Integer numEmployee) throws NumPersonneException {
         if (numEmployee instanceof Integer) {
             this.numEmployee = numEmployee;
         } else {
-            throw new NumEmployeeException(numEmployee);
+            throw new NumPersonneException(numEmployee);
         }
     }
     public void setPhoneNumber(Integer phoneNumber) throws PhoneNumberException{
@@ -45,12 +50,6 @@ public class Employee {
             throw new PhoneNumberException(phoneNumber);
         }
     }
-    public void setEmail(String email) throws EmailException {
-        if(email == "(?:\\w|[-])+(?:.(?:\\w|[-])+)@(?:\\w|[-])+(?:.(?:\\w|[-])+)*"){
-            this.email = email;
-        }
-        else{
-            throw new EmailException(email);
-        }
-    }
 }
+
+// "(?:\\w|[-])+(?:.(?:\\w|[-])+)@(?:\\w|[-])+(?:.(?:\\w|[-])+)*"

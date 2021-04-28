@@ -5,12 +5,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class SingletonConnexion {
+public class SingletonConnetion {
     private static Connection connexionUnique;
 
 
     public static Connection getInstance(){
-        if(connexionUnique == null){  ???????
+        if(connexionUnique == null){
+            try{
                 connexionUnique = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_projet_hijo","root","Hijo");
             }
             catch(SQLException e) {

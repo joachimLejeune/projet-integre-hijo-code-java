@@ -3,7 +3,7 @@ package controller;
 import business.*;
 import exception.AllEmployeesException;
 import exception.EmailException;
-import exception.NumEmployeeException;
+import exception.NumPersonneException;
 import exception.PhoneNumberException;
 import model.*;
 
@@ -21,7 +21,7 @@ public class ApplicationControler {
         this.manager = manager;
     }
 
-    public ArrayList<Employee> getAllEmployees() throws PhoneNumberException, NumEmployeeException, EmailException, AllEmployeesException {
+    public ArrayList<Employee> getAllEmployees() throws PhoneNumberException, NumPersonneException, EmailException, AllEmployeesException {
         return manager.getAllEmployees();
     }
 }
