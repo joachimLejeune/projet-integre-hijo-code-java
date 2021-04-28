@@ -7,7 +7,7 @@ public class VATException extends Throwable{
         this.wrongVAT = wrongVAT;
     }
     public String getMessage(){
-        return "La valeur " + wrongVAT + " n'est pas une correct TVA";
+        return "La valeur " + wrongVAT + " n'est pas une valeur correct pour une TVA";
     }
 }
 

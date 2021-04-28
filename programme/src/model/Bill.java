@@ -26,6 +26,10 @@ public class Bill {
         setCustomer(customer);
     }
 
+    public Integer getIdBill() {
+        return idBill;
+    }
+
     public void setIdBill(Integer idBill) throws IdBillException {
         if (idBill instanceof Integer) {
             this.idBill = idBill;

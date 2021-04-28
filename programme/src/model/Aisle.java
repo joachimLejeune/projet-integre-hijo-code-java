@@ -25,7 +25,7 @@ public class Aisle {
     }
 
     public void setNbShelves(Integer nbShelves) throws NbShelvesException {
-        if((nbShelves >= 0) && (nbShelves instanceof Integer)){
+        if((nbShelves instanceof Integer) && (nbShelves >= 0)){
             this.nbShelves = nbShelves;
         }
         else{

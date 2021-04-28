@@ -1,14 +1,14 @@
 package view.classe;
 
 import controller.*;
-import exception.AllEmployeesException;
-import exception.EmailException;
-import exception.NumPersonException;
-import exception.PhoneNumberException;
+import exception.*;
 import model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class NewBillRegistrationForm extends JPanel {
@@ -75,9 +75,15 @@ public class NewBillRegistrationForm extends JPanel {
         setController(new ApplicationControler());
         try{
             ArrayList<Employee> employees = controller.getAllEmployees();
-            for(Employee employeeLu : employees){
-                employeeComboBox.addItem(employeeLu.getFirstName() + " " +employeeLu.getLastName());
+            for(Employee employeeRead : employees){
+                employeeComboBox.addItem(employeeRead.getFirstName() + " " +employeeRead.getLastName());
             }
+            ArrayList<Customer> customers = controller.getAllCustomers();
+            for(Customer customerRead : customers){
+                customerComboBox.addItem(customerRead.getFirstName() + " " + customerRead.getLastName());
+            }
+            Integer lastIdBill = controller.getLastIdBill();
+            idTextField.setText(Integer.toString(lastIdBill));
         }
         catch (AllEmployeesException e){
             JOptionPane.showMessageDialog(null,e.getMessage());
@@ -87,7 +93,11 @@ public class NewBillRegistrationForm extends JPanel {
             e.printStackTrace();
         } catch (NumPersonException e) {
             e.printStackTrace();
+        } catch (AllCustomersException e) {
+            e.printStackTrace();
         }
+
+
         informationsFormPanel.add(idLabel);
         informationsFormPanel.add(idTextField);
         informationsFormPanel.add(addressLabel);
@@ -131,6 +141,8 @@ public class NewBillRegistrationForm extends JPanel {
         JLabel discountDeadLineLabel;
         JCheckBox discountDeadLineCheckBox;
         JComboBox discountDeadLineValue;
+        JLabel discountCouponLabel;
+        JTextField discountCoupon;
         JPanel discountDeadLineGroup;
         JButton validateButton;
 
@@ -141,12 +153,27 @@ public class NewBillRegistrationForm extends JPanel {
 
         discountDeadLineGroup = new JPanel();
         discountDeadLineGroup.setLayout(new FlowLayout());
+
         discountDeadLineLabel = new JLabel("Escompte :");
+
         discountDeadLineCheckBox = new JCheckBox();
-        discountDeadLineValue = new JComboBox();
+
+        String[] discountDeadLineValues = {"0.02","0.04","0.06","0.08"};
+        discountDeadLineValue = new JComboBox(discountDeadLineValues);
+        discountDeadLineValue.setEnabled(false);
+
+        // gestion de l'event lié au clic sur la case à cocher pour rendre ou non accessible les % d'escompte
+        DiscountDeadLineListener discountDeadLineListener = new DiscountDeadLineListener(discountDeadLineValue);
+        discountDeadLineCheckBox.addItemListener(discountDeadLineListener);
+
+        discountCouponLabel = new JLabel("Coupon de réduction :");
+        discountCoupon = new JTextField();
+
         discountDeadLineGroup.add(discountDeadLineLabel);
         discountDeadLineGroup.add(discountDeadLineCheckBox);
         discountDeadLineGroup.add(discountDeadLineValue);
+        discountDeadLineGroup.add(discountCouponLabel);
+        discountDeadLineGroup.add(discountCoupon);
 
         supplementsFormPanel.add(discountDeadLineGroup,BorderLayout.CENTER);
 
@@ -156,5 +183,16 @@ public class NewBillRegistrationForm extends JPanel {
         supplementsFormPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         return supplementsFormPanel;
+    }
+    private class DiscountDeadLineListener implements ItemListener{
+        private JComboBox discountValues;
+        public DiscountDeadLineListener(JComboBox discountValues){
+            this.discountValues = discountValues;
+        }
+
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+            discountValues.setEnabled(e.getStateChange() == ItemEvent.SELECTED);
+        }
     }
 }

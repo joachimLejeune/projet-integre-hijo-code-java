@@ -1,6 +1,7 @@
 package model;
 
 
+import exception.IdBillException;
 import exception.QuantityException;
 import exception.PriceException;
 import exception.IdArticleException;
@@ -9,13 +10,22 @@ public class Listing {
     private Integer quantity;
     private Double price;
     private Integer article;
+    private Integer idBill;
 
-    public Listing(Integer quantity, Double price, Integer article) throws QuantityException, PriceException, IdArticleException {
+    public Listing(Integer quantity, Double price, Integer article, Integer idBill) throws QuantityException, PriceException, IdArticleException, IdBillException {
         setQuantity(quantity);
         setPrice(price);
         setArticle(article);
+        setIdBill(idBill);
     }
 
+    public void setIdBill(Integer idBill) throws IdBillException {
+        if (idBill instanceof Integer) {
+            this.idBill = idBill;
+        } else {
+            throw new IdBillException(idBill);
+        }
+    }
     public void setQuantity(Integer quantity) throws QuantityException {
         if((quantity >= 0) && (quantity instanceof Integer)){
             this.quantity = quantity;
