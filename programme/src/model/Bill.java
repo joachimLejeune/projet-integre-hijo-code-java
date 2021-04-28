@@ -1,8 +1,7 @@
 package model;
 
 import exception.IdBillException;
-import exception.NumEmployeeException;
-import exception.NumCustomerException;
+import exception.NumPersonException;
 
 import java.util.GregorianCalendar;
 
@@ -16,7 +15,7 @@ public class Bill {
     private Integer employee;
     private Integer customer;
 
-    public Bill(Integer idBill, GregorianCalendar dateBill, Boolean isDiscount, Double discount, Integer discountCoupon, String remarks, Integer employee, Integer customer) throws IdBillException, NumCustomerException, NumEmployeeException {
+    public Bill(Integer idBill, GregorianCalendar dateBill, Boolean isDiscount, Double discount, Integer discountCoupon, String remarks, Integer employee, Integer customer) throws IdBillException, NumPersonException {
         setIdBill(idBill);
         this.dateBill = dateBill;
         this.isDiscount = isDiscount;
@@ -35,19 +34,19 @@ public class Bill {
         }
     }
 
-    public void setEmployee(Integer employee) throws NumEmployeeException {
+    public void setEmployee(Integer employee) throws NumPersonException {
         if (employee instanceof Integer) {
             this.employee = employee;
         } else {
-            throw new NumEmployeeException(employee);
+            throw new NumPersonException(employee);
         }
     }
 
-    public void setCustomer(Integer customer) throws NumCustomerException {
+    public void setCustomer(Integer customer) throws NumPersonException {
         if (customer instanceof Integer) {
             this.customer = customer;
         } else {
-            throw new NumCustomerException(customer);
+            throw new NumPersonException(customer);
         }
     }
 }

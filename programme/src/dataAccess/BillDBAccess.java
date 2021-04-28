@@ -3,7 +3,7 @@ package dataAccess;
 import controller.BillDataAccess;
 import exception.AllEmployeesException;
 import exception.EmailException;
-import exception.NumPersonneException;
+import exception.NumPersonException;
 import exception.PhoneNumberException;
 import model.Employee;
 
@@ -14,7 +14,7 @@ import java.util.GregorianCalendar;
 
 public class BillDBAccess  implements BillDataAccess {
 
-    public ArrayList<Employee> getAllEmployees() throws PhoneNumberException, EmailException, NumPersonneException, AllEmployeesException {
+    public ArrayList<Employee> getAllEmployees() throws PhoneNumberException, EmailException, NumPersonException, AllEmployeesException {
         ArrayList<Employee> employeesList = new ArrayList<>();
         Employee employee;
         Connection connection = SingletonConnetion.getInstance();

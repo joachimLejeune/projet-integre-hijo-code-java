@@ -1,6 +1,6 @@
 package model;
 
-import exception.NumPersonneException;
+import exception.NumPersonException;
 import exception.PhoneNumberException;
 
 import java.util.GregorianCalendar;
@@ -14,7 +14,7 @@ public class Customer {
     private Integer phoneNumber;
     private String email;
 
-    public Customer(Integer numCustomer, String firstName, String lastName, GregorianCalendar birthDate, String address, Integer phoneNumber, String email) throws PhoneNumberException, NumPersonneException {
+    public Customer(Integer numCustomer, String firstName, String lastName, GregorianCalendar birthDate, String address, Integer phoneNumber, String email) throws PhoneNumberException, NumPersonException {
         setNumCustomer(numCustomer);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -29,11 +29,11 @@ public class Customer {
     public String getFirstName() {
         return firstName;
     }
-    public void setNumCustomer(Integer numEmployee) throws NumPersonneException {
+    public void setNumCustomer(Integer numEmployee) throws NumPersonException {
         if (numEmployee instanceof Integer) {
             this.numCustomer = numEmployee;
         } else {
-            throw new NumPersonneException(numEmployee);
+            throw new NumPersonException(numEmployee);
         }
     }
     public void setPhoneNumber(Integer phoneNumber) throws PhoneNumberException {

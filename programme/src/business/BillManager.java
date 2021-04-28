@@ -3,7 +3,7 @@ package business;
 import dataAccess.*;
 import exception.AllEmployeesException;
 import exception.EmailException;
-import exception.NumPersonneException;
+import exception.NumPersonException;
 import exception.PhoneNumberException;
 import model.*;
 
@@ -21,7 +21,7 @@ public class BillManager {
         this.dao = dao;
     }
 
-    public ArrayList<Employee> getAllEmployees() throws AllEmployeesException, PhoneNumberException, EmailException, NumPersonneException {
+    public ArrayList<Employee> getAllEmployees() throws AllEmployeesException, PhoneNumberException, EmailException, NumPersonException {
         ArrayList<Employee> employeeList = dao.getAllEmployees();
         return employeeList;
     }

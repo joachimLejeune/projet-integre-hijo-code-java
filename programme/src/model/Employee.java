@@ -1,7 +1,7 @@
 package model;
 
 import exception.EmailException;
-import exception.NumPersonneException;
+import exception.NumPersonException;
 import exception.PhoneNumberException;
 
 import java.util.GregorianCalendar;
@@ -15,7 +15,7 @@ public class Employee {
     private Integer phoneNumber;
     private String email;
 
-    public Employee(Integer numEmployee, String firstName, String lastName, GregorianCalendar birthDate, String address, Integer phoneNumber, String email) throws NumPersonneException, PhoneNumberException{
+    public Employee(Integer numEmployee, String firstName, String lastName, GregorianCalendar birthDate, String address, Integer phoneNumber, String email) throws NumPersonException, PhoneNumberException{
         setNumEmployee(numEmployee);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -24,7 +24,7 @@ public class Employee {
         setPhoneNumber(phoneNumber);
         this.email = email;
     }
-    public Employee(Integer numEmployee, String firstName, String lastName, GregorianCalendar birthDate, String address, Integer phoneNumber) throws NumPersonneException, PhoneNumberException{
+    public Employee(Integer numEmployee, String firstName, String lastName, GregorianCalendar birthDate, String address, Integer phoneNumber) throws NumPersonException, PhoneNumberException{
         this(numEmployee,firstName,lastName,birthDate,address,phoneNumber," ");
 
     }
@@ -35,11 +35,11 @@ public class Employee {
         return firstName;
     }
 
-    public void setNumEmployee(Integer numEmployee) throws NumPersonneException {
+    public void setNumEmployee(Integer numEmployee) throws NumPersonException {
         if (numEmployee instanceof Integer) {
             this.numEmployee = numEmployee;
         } else {
-            throw new NumPersonneException(numEmployee);
+            throw new NumPersonException(numEmployee);
         }
     }
     public void setPhoneNumber(Integer phoneNumber) throws PhoneNumberException{

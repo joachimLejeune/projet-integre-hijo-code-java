@@ -3,7 +3,7 @@ package view.classe;
 import controller.*;
 import exception.AllEmployeesException;
 import exception.EmailException;
-import exception.NumPersonneException;
+import exception.NumPersonException;
 import exception.PhoneNumberException;
 import model.*;
 
@@ -85,7 +85,7 @@ public class NewBillRegistrationForm extends JPanel {
             e.printStackTrace();
         } catch (PhoneNumberException e) {
             e.printStackTrace();
-        } catch (NumPersonneException e) {
+        } catch (NumPersonException e) {
             e.printStackTrace();
         }
         informationsFormPanel.add(idLabel);

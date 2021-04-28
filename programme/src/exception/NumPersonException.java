@@ -1,9 +1,9 @@
 package exception;
 
-public class NumPersonneException extends Exception{
+public class NumPersonException extends Exception{
     private Integer wrongNum;
 
-    public NumPersonneException(Integer wrongNumEmployee){
+    public NumPersonException(Integer wrongNumEmployee){
         this.wrongNum = wrongNum;
     }
     public String getMessage(){
