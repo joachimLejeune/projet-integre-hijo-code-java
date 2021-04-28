@@ -10,8 +10,7 @@ public class SingletonConnexion {
 
 
     public static Connection getInstance(){
-        if(connexionUnique == null){
-            try{
+        if(connexionUnique == null){  ???????
                 connexionUnique = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_projet_hijo","root","Hijo");
             }
             catch(SQLException e) {
