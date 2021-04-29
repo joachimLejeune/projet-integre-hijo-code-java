@@ -162,6 +162,8 @@ public class NewBillRegistrationForm extends JPanel {
         discountDeadLineValue = new JComboBox(discountDeadLineValues);
         discountDeadLineValue.setEnabled(false);
 
+        // quelque phrase de test pour voir si le commit push fonctionne
+
         // gestion de l'event lié au clic sur la case à cocher pour rendre ou non accessible les % d'escompte
         DiscountDeadLineListener discountDeadLineListener = new DiscountDeadLineListener(discountDeadLineValue);
         discountDeadLineCheckBox.addItemListener(discountDeadLineListener);
