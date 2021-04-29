@@ -6,9 +6,10 @@ import model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class NewBillRegistrationForm extends JPanel {
@@ -53,6 +54,7 @@ public class NewBillRegistrationForm extends JPanel {
         this.controller = applicationControler;
     }
 
+    // méthode de construction
     public JPanel InformationsFormPanelBuild(){
         JLabel idLabel, addressLabel, dateLabel, employeeLabel, customerLabel;
         JTextField idTextField, adressTextField;
@@ -118,6 +120,12 @@ public class NewBillRegistrationForm extends JPanel {
         addArticleButton = new JButton("Ajouter un article");
         modArticleButton = new JButton("Modifier un article");
         delArticleButton = new JButton("Supprimer un article");
+
+        // on gère le clic sur ajouter un article
+        AddArticleListener addArticleListener = new AddArticleListener();
+        addArticleButton.addActionListener(addArticleListener);
+
+
         articlesButtonsFormPanel.add(addArticleButton,BorderLayout.WEST);
         articlesButtonsFormPanel.add(modArticleButton,BorderLayout.CENTER);
         articlesButtonsFormPanel.add(delArticleButton,BorderLayout.EAST);
@@ -128,7 +136,7 @@ public class NewBillRegistrationForm extends JPanel {
     }
     public JPanel ArticlesFormPanelBuild(){
         JTable listingArticles;
-        String[] columnNames = {"Articles", "quantité","prix unitaire HTVA","prix total HTVA","TVA", "Prix total TVAC"};
+        String[] columnNames = {"Articles", "Quantité","Prix unitaire HTVA","Prix total HTVA","TVA", "Prix total TVAC"};
         listingArticles = new JTable();
         articlesFormPanel.add(listingArticles);
 
@@ -162,14 +170,13 @@ public class NewBillRegistrationForm extends JPanel {
         discountDeadLineValue = new JComboBox(discountDeadLineValues);
         discountDeadLineValue.setEnabled(false);
 
-        // quelque phrase de test pour voir si le commit push fonctionne
-
         // gestion de l'event lié au clic sur la case à cocher pour rendre ou non accessible les % d'escompte
         DiscountDeadLineListener discountDeadLineListener = new DiscountDeadLineListener(discountDeadLineValue);
         discountDeadLineCheckBox.addItemListener(discountDeadLineListener);
 
         discountCouponLabel = new JLabel("Coupon de réduction :");
         discountCoupon = new JTextField();
+        discountCoupon.setColumns(6);
 
         discountDeadLineGroup.add(discountDeadLineLabel);
         discountDeadLineGroup.add(discountDeadLineCheckBox);
@@ -186,6 +193,8 @@ public class NewBillRegistrationForm extends JPanel {
 
         return supplementsFormPanel;
     }
+
+    // listener
     private class DiscountDeadLineListener implements ItemListener{
         private JComboBox discountValues;
         public DiscountDeadLineListener(JComboBox discountValues){
@@ -195,6 +204,12 @@ public class NewBillRegistrationForm extends JPanel {
         @Override
         public void itemStateChanged(ItemEvent e) {
             discountValues.setEnabled(e.getStateChange() == ItemEvent.SELECTED);
+        }
+    }
+    private class AddArticleListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ResearchArticleWindow researchArticleWindow = new ResearchArticleWindow();
         }
     }
 }

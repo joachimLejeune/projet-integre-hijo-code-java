@@ -30,7 +30,6 @@ public class HelpWindow extends JFrame {
         setVisible(true);
     }
     private class ReturnButtonListener implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
             dispose();

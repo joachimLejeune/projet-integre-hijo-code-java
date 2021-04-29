@@ -22,6 +22,9 @@ public class Article {
         setAisle(aisle);
     }
 
+    public String getWording(){
+        return wording;
+    }
     public void setIdArticle(Integer idArticle) throws IdArticleException {
         if (idArticle instanceof Integer) {
             this.idArticle = idArticle;

@@ -30,4 +30,8 @@ public class BillManager {
     public Integer getLastIdBill(){
         return dao.getLastIdBill();
     }
+
+    public ArrayList<Article> getAllArticles() {
+        return dao.getAllArticles();
+    }
 }

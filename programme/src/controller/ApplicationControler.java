@@ -27,4 +27,8 @@ public class ApplicationControler {
     public Integer getLastIdBill(){
         return manager.getLastIdBill();
     }
+
+    public ArrayList<Article> getAllArticles() {
+        return manager.getAllArticles();
+    }
 }

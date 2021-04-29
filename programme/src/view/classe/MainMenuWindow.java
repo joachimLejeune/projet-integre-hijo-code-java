@@ -31,12 +31,6 @@ public class MainMenuWindow extends JFrame {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-//                Connection connexion = SingletonConnexion.getInstance();
-//                try {
-//                    connexion.close();
-//                } catch (SQLException throwables) {
-//                    throwables.printStackTrace();
-//                }
                 System.exit(0);
             }
         });
@@ -136,12 +130,7 @@ public class MainMenuWindow extends JFrame {
     private class RegistrationListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-//            RegistrationForm registrationForm;
-//            registrationForm = new RegistrationForm();
-//            mainContainer.removeAll();
-//            mainContainer.add(registrationForm);
-//            mainContainer.repaint();
-//            setVisible(true);
+
             setBounds(650,150,635,635);
             NewBillRegistrationForm newBillRegistrationForm = new NewBillRegistrationForm();
             mainContainer.removeAll();
