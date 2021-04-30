@@ -16,12 +16,14 @@ public class ResearchArticleWindow extends JFrame {
     private JComboBox quantityArticle;
     private JButton validateButton;
     private Container container;
+    private NewBillRegistrationForm newBillRegistrationForm;
     private ApplicationControler controller;
 
-    public ResearchArticleWindow(){
+    public ResearchArticleWindow(NewBillRegistrationForm newBillRegistrationForm){
         super("Recherche d'un article");
-        setBounds(400,200,400,100);
+        setBounds(400,200,400,150);
 
+        this.newBillRegistrationForm = newBillRegistrationForm;
         indicationLabel = new JLabel("Choississez un article à ajouter à votre facture :");
         quantityArticleLabel = new JLabel("Quantité : ");
         articlesChoiceComboBox = new JComboBox();
@@ -43,7 +45,7 @@ public class ResearchArticleWindow extends JFrame {
         }
 
         // on gère le clic sur valider
-        ValidatButtonListener validatButtonListener = new ValidatButtonListener(articles,this);
+        ValidateButtonListener validatButtonListener = new ValidateButtonListener(articles,this);
         validateButton.addActionListener(validatButtonListener);
 
         setVisible(true);
@@ -54,18 +56,33 @@ public class ResearchArticleWindow extends JFrame {
     }
 
     // listeners
-    private class ValidatButtonListener implements ActionListener {
+    private class ValidateButtonListener implements ActionListener {
         private ArrayList<Article> articles;
         private ResearchArticleWindow researchArticleWindow;
-        public ValidatButtonListener(ArrayList<Article> articles,ResearchArticleWindow researchArticleWindow){
+        public ValidateButtonListener(ArrayList<Article> articles,ResearchArticleWindow researchArticleWindow){
             this.articles = articles;
             this.researchArticleWindow = researchArticleWindow;
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            //Article articleRead = articles.get(articles.indexOf(researchArticleWindow.articlesChoiceComboBox.getSelectedItem()));
-            JOptionPane.showMessageDialog(null,researchArticleWindow.articlesChoiceComboBox.getSelectedItem());
-
+//            Article articleRead = articles.get(articles.indexOf(researchArticleWindow.articlesChoiceComboBox.getSelectedItem()));
+//            Article articleRead;
+//            for(Article articleRead2 : articles){
+//                if(articleRead2.getWording() == researchArticleWindow.articlesChoiceComboBox.getSelectedItem()){
+//                    articleRead = articleRead2;
+//                }
+//            }
+//            JOptionPane.showMessageDialog(null,researchArticleWindow.articlesChoiceComboBox.getSelectedItem());
+            String wordingSelected = (String)researchArticleWindow.articlesChoiceComboBox.getSelectedItem();
+            for(Article articleRead : articles){
+                if(articleRead.getWording().equals(wordingSelected)){
+                    newBillRegistrationForm.addArticleInListingTable(articleRead,Integer.valueOf(researchArticleWindow.quantityArticle.getSelectedItem().toString()));
+                }
+            }
+//            researchArticleWindow.articlesChoiceComboBox.getSelectedItem();
+//            JOptionPane.showMessageDialog(null,articles.get(0).getWording());
+//            JOptionPane.showMessageDialog(null,researchArticleWindow.quantityArticle.getSelectedItem());
+//            newBillRegistrationForm.addArticleInListingTable(articleSearched,researchArticleWindow.quantityArticle.getSelectedItem());
         }
     }
 }

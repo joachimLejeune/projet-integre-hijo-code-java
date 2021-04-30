@@ -5,6 +5,7 @@ import exception.*;
 import model.*;
 
 import javax.swing.*;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +19,16 @@ public class NewBillRegistrationForm extends JPanel {
     private JPanel articlesFormPanel;
     private JPanel supplementsFormPanel;
     private static String compagnyAddress = "Rue de la Joyeuseté 42, 5000 Namur";
+    private static Integer nbArticles = 0;
+    JLabel idLabel, addressLabel, dateLabel, employeeLabel, customerLabel;
+    JTextField idTextField, adressTextField;
+    JSpinner dateSpinner;
+    JComboBox employeeComboBox, customerComboBox;
+    JButton addArticleButton, modArticleButton, delArticleButton;
+    JScrollPane scrollPane;
+    JTable listingArticles;
+    Object[][] rowData = new Object[50][6];
+    String[] columnNames = {"Articles", "Quantité","Prix unitaire HTVA","Prix total HTVA","TVA", "Prix total TVAC"};
 
     private ApplicationControler controller; // servira à la communication avec la couche en dessous
 
@@ -50,16 +61,8 @@ public class NewBillRegistrationForm extends JPanel {
     }
 
 
-    private void setController(ApplicationControler applicationControler) {
-        this.controller = applicationControler;
-    }
-
     // méthode de construction
     public JPanel InformationsFormPanelBuild(){
-        JLabel idLabel, addressLabel, dateLabel, employeeLabel, customerLabel;
-        JTextField idTextField, adressTextField;
-        JSpinner dateSpinner;
-        JComboBox employeeComboBox, customerComboBox;
 
         idLabel = new JLabel("Numéro de la facture :");
         idTextField = new JTextField();
@@ -111,12 +114,10 @@ public class NewBillRegistrationForm extends JPanel {
         informationsFormPanel.add(customerLabel);
         informationsFormPanel.add(customerComboBox);
 
-        informationsFormPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-
         return informationsFormPanel;
     }
     public JPanel ArticlesButtonsFormPanelBuild(){
-        JButton addArticleButton, modArticleButton, delArticleButton;
+
         addArticleButton = new JButton("Ajouter un article");
         modArticleButton = new JButton("Modifier un article");
         delArticleButton = new JButton("Supprimer un article");
@@ -130,17 +131,16 @@ public class NewBillRegistrationForm extends JPanel {
         articlesButtonsFormPanel.add(modArticleButton,BorderLayout.CENTER);
         articlesButtonsFormPanel.add(delArticleButton,BorderLayout.EAST);
 
-        articlesButtonsFormPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
 
         return articlesButtonsFormPanel;
     }
     public JPanel ArticlesFormPanelBuild(){
-        JTable listingArticles;
-        String[] columnNames = {"Articles", "Quantité","Prix unitaire HTVA","Prix total HTVA","TVA", "Prix total TVAC"};
-        listingArticles = new JTable();
-        articlesFormPanel.add(listingArticles);
+        listingArticles = new JTable(rowData,columnNames);
+        scrollPane = new JScrollPane(listingArticles);
+        scrollPane.setPreferredSize(new Dimension(600,350));
 
-        articlesFormPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
+        articlesFormPanel.add(scrollPane);
+
 
         return articlesFormPanel;
     }
@@ -189,10 +189,15 @@ public class NewBillRegistrationForm extends JPanel {
         validateButton = new JButton("Valider la commande");
         supplementsFormPanel.add(validateButton,BorderLayout.SOUTH);
 
-        supplementsFormPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
         return supplementsFormPanel;
     }
+
+    // setter
+    private void setController(ApplicationControler applicationControler) {
+        this.controller = applicationControler;
+    }
+
+    // getter
 
     // listener
     private class DiscountDeadLineListener implements ItemListener{
@@ -209,7 +214,24 @@ public class NewBillRegistrationForm extends JPanel {
     private class AddArticleListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            ResearchArticleWindow researchArticleWindow = new ResearchArticleWindow();
+            ResearchArticleWindow researchArticleWindow = new ResearchArticleWindow(NewBillRegistrationForm.this);
         }
     }
+
+    // methods
+    public void addArticleInListingTable(Article article, Integer quantity){
+        rowData[nbArticles][0] = article.getWording();
+        rowData[nbArticles][1] = quantity;
+        rowData[nbArticles][2] = article.getPrice();
+        Double totalPriceWVAT = (Double)(article.getPrice()) * quantity;
+        rowData[nbArticles][3] = totalPriceWVAT;
+        rowData[nbArticles][4] = article.getVAT();
+        rowData[nbArticles][5] = totalPriceWVAT + (totalPriceWVAT * article.getVAT());
+        nbArticles++;
+        listingArticles.repaint();
+    }
+
 }
+
+
+// penser à ajouter un cadre pour afficher le prix total à payer à la fin qui se met à jour dès qu'une nouvelle ligne se rajoute dans le listing

@@ -62,4 +62,10 @@ public class Article {
             throw new NumAisleException(aisle);
         }
     }
+    public Double getPrice() {
+        return price;
+    }
+    public Double getVAT() {
+        return VAT;
+    }
 }
