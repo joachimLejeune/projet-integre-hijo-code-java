@@ -28,6 +28,10 @@ public class Employee {
         this(numEmployee,firstName,lastName,birthDate,address,phoneNumber," ");
 
     }
+
+    public Integer getNumEmployee() {
+        return numEmployee;
+    }
     public String getLastName() {
         return lastName;
     }

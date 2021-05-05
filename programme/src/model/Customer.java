@@ -23,12 +23,16 @@ public class Customer {
         setPhoneNumber(phoneNumber);
         this.email = email;
     }
+    public Integer getNumCustomer() {
+        return numCustomer;
+    }
     public String getLastName() {
         return lastName;
     }
     public String getFirstName() {
         return firstName;
     }
+
     public void setNumCustomer(Integer numEmployee) throws NumPersonException {
         if (numEmployee instanceof Integer) {
             this.numCustomer = numEmployee;

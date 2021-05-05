@@ -26,10 +26,33 @@ public class Bill {
         setCustomer(customer);
     }
 
-    public Integer getIdBill() {
-        return idBill;
+    // getter
+    public Integer getIdBill(){
+        return this.idBill;
+    }
+    public GregorianCalendar getDateBill() {
+        return dateBill;
+    }
+    public Boolean getIsDiscount() {
+        return isDiscount;
+    }
+    public Double getDiscount() {
+        return discount;
+    }
+    public Integer getDiscountCoupon() {
+        return discountCoupon;
+    }
+    public String getRemarks() {
+        return remarks;
+    }
+    public Integer getEmployee() {
+        return employee;
+    }
+    public Integer getCustomer() {
+        return customer;
     }
 
+    // setter
     public void setIdBill(Integer idBill) throws IdBillException {
         if (idBill instanceof Integer) {
             this.idBill = idBill;
@@ -37,7 +60,6 @@ public class Bill {
             throw new IdBillException(idBill);
         }
     }
-
     public void setEmployee(Integer employee) throws NumPersonException {
         if (employee instanceof Integer) {
             this.employee = employee;
@@ -45,7 +67,6 @@ public class Bill {
             throw new NumPersonException(employee);
         }
     }
-
     public void setCustomer(Integer customer) throws NumPersonException {
         if (customer instanceof Integer) {
             this.customer = customer;

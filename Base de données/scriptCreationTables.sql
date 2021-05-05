@@ -22,7 +22,7 @@ CREATE TABLE customer(
 );
 CREATE TABLE bill(
 	id_bill INTEGER,
-    date_bill DATE NOT NULL CONSTRAINT date_bill_cst CHECK(date_bill >= SYSDATE()),
+    date_bill DATE NOT NULL,
     is_discount_before_deadline BOOLEAN NOT NULL,
     discount_before_deadline DOUBLE,
     discount_coupon INTEGER,

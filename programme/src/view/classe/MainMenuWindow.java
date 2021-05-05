@@ -22,6 +22,7 @@ public class MainMenuWindow extends JFrame {
     private Container mainContainer;
     private JLabel welcomeMessage;
 
+    // constructeur
     public MainMenuWindow(){
         super("Création de commandes");
         welcomeMessage = new JLabel("Bonjour et bienvenue");
@@ -100,11 +101,14 @@ public class MainMenuWindow extends JFrame {
         setVisible(true);
     }
 
+    // getter
     public Container getMainContainer() {
         return mainContainer;
     }
 
+    // setters
 
+    // listeners
     private class ExitListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -131,7 +135,7 @@ public class MainMenuWindow extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            setBounds(650,150,635,635);
+            setBounds(625,125,735,735);
             NewBillRegistrationForm newBillRegistrationForm = new NewBillRegistrationForm();
             mainContainer.removeAll();
             mainContainer.add(newBillRegistrationForm);

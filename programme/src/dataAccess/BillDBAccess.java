@@ -1,6 +1,5 @@
 package dataAccess;
 
-import controller.BillDataAccess;
 import exception.*;
 import model.Article;
 import model.Bill;
@@ -14,6 +13,9 @@ import java.util.GregorianCalendar;
 
 public class BillDBAccess  implements BillDataAccess {
     private Connection connection;
+    private Integer idEmployee;
+    private Integer idCustomer;
+    Integer lastIdBill = 0;
     public BillDBAccess(){
         connection = SingletonConnetion.getInstance();
     }
@@ -43,7 +45,7 @@ public class BillDBAccess  implements BillDataAccess {
                     else{
                         employee = new Employee(data.getInt("num_employee"),data.getString("first_name"),
                                 data.getString("last_name"),calendar,data.getString("address"),
-                                data.getInt("phone_number"),"inconnu");
+                                data.getInt("phone_number"));
                     }
 
                     employeesList.add(employee);
@@ -86,8 +88,7 @@ public class BillDBAccess  implements BillDataAccess {
         }
         return customersList;
     }
-    public Integer getLastIdBill(){ // pas sur qu'un ArrayList soit pertinent
-        Integer lastIdBill = 0;
+    public Integer getNextIdBill() throws GetNextIdBillException { // pas sur qu'un ArrayList soit pertinent
 
         if(connection!=null){
             try{
@@ -99,11 +100,10 @@ public class BillDBAccess  implements BillDataAccess {
                 //connection.close();
             }
             catch(SQLException e){
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Problème lors de la connection à la base de donnée");
+                throw new GetNextIdBillException();
             }
         }
-        return lastIdBill;
+        return lastIdBill+1;
     }
     public ArrayList<Article> getAllArticles(){
         ArrayList<Article> articlesList = new ArrayList<>();
@@ -135,5 +135,58 @@ public class BillDBAccess  implements BillDataAccess {
         }
         return articlesList;
     }
+//    public Integer getIdEmployee(String firstNameEmployee, String lastNameEmployee){
+//        try{
+//            String sqlInstruction = "select num_employee from employee where first_name = ? and last_name = ?";
+//            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+//            preparedStatement.setString(1,firstNameEmployee);
+//            preparedStatement.setString(2,lastNameEmployee);
+//            ResultSet data = preparedStatement.executeQuery();
+//            if(data.next()){
+//                idEmployee =  data.getInt("num_employee");
+//            }
+//        }
+//        catch(SQLException e){
+//            e.printStackTrace();
+//        }
+//        return idEmployee;
+//    }
+//    public Integer getIdCustomer(String firstNameCustomer, String lastNameCustomer){
+//        try{
+//            String sqlInstruction = "select num_customer from customer where first_name = ? and last_name = ?";
+//            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+//            preparedStatement.setString(1,firstNameCustomer);
+//            preparedStatement.setString(2,lastNameCustomer);
+//            ResultSet data = preparedStatement.executeQuery();
+//            if(data.next()){
+//                idCustomer = data.getInt("num_customer");
+//            }
+//        }
+//        catch(SQLException e){
+//            e.printStackTrace();
+//        }
+//        return idCustomer;
+//    }
 
+
+    public void setBill(Bill bill){
+        if(connection != null){
+            try{
+                String sqlInstruction = "insert into bill value(?,?,?,?,?,?,?,?)";
+                PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+                preparedStatement.setInt(1,bill.getIdBill());
+                preparedStatement.setDate(2, new java.sql.Date(bill.getDateBill().getTimeInMillis()));
+                preparedStatement.setBoolean(3,bill.getIsDiscount());
+                preparedStatement.setDouble(4,bill.getDiscount());
+                preparedStatement.setInt(5,bill.getDiscountCoupon());
+                preparedStatement.setString(6,bill.getRemarks());
+                preparedStatement.setInt(7,bill.getEmployee());
+                preparedStatement.setInt(8,bill.getCustomer());
+                preparedStatement.executeUpdate();
+            }
+            catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+    }
 }

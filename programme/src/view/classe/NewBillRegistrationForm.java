@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 public class NewBillRegistrationForm extends JPanel {
     private JPanel informationsFormPanel;
@@ -20,11 +21,14 @@ public class NewBillRegistrationForm extends JPanel {
     private JPanel supplementsFormPanel;
     private static String compagnyAddress = "Rue de la Joyeuseté 42, 5000 Namur";
     private static Integer nbArticles = 0;
-    JLabel idLabel, addressLabel, dateLabel, employeeLabel, customerLabel;
-    JTextField idTextField, adressTextField;
+    JLabel idLabel, addressLabel, dateLabel, employeeLabel, customerLabel,totalPriceBillLabel,discountDeadLineLabel,discountCouponLabel,noticesLabel;
+    JTextField idTextField, adressTextField,totalPriceBill,discountCoupon;
     JSpinner dateSpinner;
-    JComboBox employeeComboBox, customerComboBox;
-    JButton addArticleButton, modArticleButton, delArticleButton;
+    JComboBox employeeComboBox, customerComboBox,discountDeadLineValue;
+    JButton addArticleButton, modArticleButton, delArticleButton,validateButton;
+    JTextArea notices;
+    JCheckBox discountDeadLineCheckBox;
+    JPanel discountDeadLineGroup;
     JScrollPane scrollPane;
     JTable listingArticles;
     Object[][] rowData = new Object[50][6];
@@ -60,34 +64,33 @@ public class NewBillRegistrationForm extends JPanel {
 
     }
 
-
     // méthode de construction
     public JPanel InformationsFormPanelBuild(){
 
-        idLabel = new JLabel("Numéro de la facture :");
+        idLabel = new JLabel("Numéro de la facture :",SwingConstants.CENTER);
         idTextField = new JTextField();
         idTextField.setEnabled(false);
-        addressLabel = new JLabel("adresse de la société :");
+        addressLabel = new JLabel("adresse de la société :",SwingConstants.CENTER);
         adressTextField = new JTextField(compagnyAddress);
         adressTextField.setEnabled(false);
-        dateLabel = new JLabel("Date de facturation :");
+        dateLabel = new JLabel("Date de facturation :",SwingConstants.CENTER);
         dateSpinner = new JSpinner(new SpinnerDateModel());
-        employeeLabel = new JLabel("Employé :");
+        employeeLabel = new JLabel("Employé :",SwingConstants.CENTER);
         employeeComboBox = new JComboBox();
-        customerLabel = new JLabel("Client :");
+        customerLabel = new JLabel("Client :",SwingConstants.CENTER);
         customerComboBox = new JComboBox();
 
         setController(new ApplicationControler());
         try{
             ArrayList<Employee> employees = controller.getAllEmployees();
             for(Employee employeeRead : employees){
-                employeeComboBox.addItem(employeeRead.getFirstName() + " " +employeeRead.getLastName());
+                employeeComboBox.addItem(employeeRead.getNumEmployee() + " " + employeeRead.getFirstName() + " " +employeeRead.getLastName());
             }
             ArrayList<Customer> customers = controller.getAllCustomers();
             for(Customer customerRead : customers){
-                customerComboBox.addItem(customerRead.getFirstName() + " " + customerRead.getLastName());
+                customerComboBox.addItem( customerRead.getNumCustomer() + " " + customerRead.getFirstName() + " " + customerRead.getLastName());
             }
-            Integer lastIdBill = controller.getLastIdBill();
+            Integer lastIdBill = controller.getNextIdBill();
             idTextField.setText(Integer.toString(lastIdBill));
         }
         catch (AllEmployeesException e){
@@ -99,6 +102,8 @@ public class NewBillRegistrationForm extends JPanel {
         } catch (NumPersonException e) {
             e.printStackTrace();
         } catch (AllCustomersException e) {
+            e.printStackTrace();
+        } catch (GetNextIdBillException e) {
             e.printStackTrace();
         }
 
@@ -145,34 +150,22 @@ public class NewBillRegistrationForm extends JPanel {
         return articlesFormPanel;
     }
     public JPanel SupplementsFormPanel(){
-        JTextArea notices;
-        JLabel discountDeadLineLabel;
-        JCheckBox discountDeadLineCheckBox;
-        JComboBox discountDeadLineValue;
-        JLabel discountCouponLabel;
-        JTextField discountCoupon;
-        JPanel discountDeadLineGroup;
-        JButton validateButton;
-
         supplementsFormPanel.setLayout(new BorderLayout());
 
+        totalPriceBillLabel = new JLabel("Prix total à payer");
+        totalPriceBill = new JTextField();
+        totalPriceBill.setColumns(6);
+        noticesLabel = new JLabel("Remarques : ");
         notices = new JTextArea();
-        supplementsFormPanel.add(notices, BorderLayout.NORTH);
-
         discountDeadLineGroup = new JPanel();
         discountDeadLineGroup.setLayout(new FlowLayout());
-
         discountDeadLineLabel = new JLabel("Escompte :");
-
         discountDeadLineCheckBox = new JCheckBox();
+        validateButton = new JButton("Valider la commande");
 
         String[] discountDeadLineValues = {"0.02","0.04","0.06","0.08"};
         discountDeadLineValue = new JComboBox(discountDeadLineValues);
         discountDeadLineValue.setEnabled(false);
-
-        // gestion de l'event lié au clic sur la case à cocher pour rendre ou non accessible les % d'escompte
-        DiscountDeadLineListener discountDeadLineListener = new DiscountDeadLineListener(discountDeadLineValue);
-        discountDeadLineCheckBox.addItemListener(discountDeadLineListener);
 
         discountCouponLabel = new JLabel("Coupon de réduction :");
         discountCoupon = new JTextField();
@@ -183,11 +176,21 @@ public class NewBillRegistrationForm extends JPanel {
         discountDeadLineGroup.add(discountDeadLineValue);
         discountDeadLineGroup.add(discountCouponLabel);
         discountDeadLineGroup.add(discountCoupon);
+        discountDeadLineGroup.add(totalPriceBillLabel);
+        discountDeadLineGroup.add(totalPriceBill);
 
-        supplementsFormPanel.add(discountDeadLineGroup,BorderLayout.CENTER);
-
-        validateButton = new JButton("Valider la commande");
+        supplementsFormPanel.add(noticesLabel,BorderLayout.WEST);
+        supplementsFormPanel.add(notices, BorderLayout.CENTER);
+        supplementsFormPanel.add(discountDeadLineGroup,BorderLayout.NORTH);
         supplementsFormPanel.add(validateButton,BorderLayout.SOUTH);
+
+        // gestion de l'event lié au clic sur la case à cocher pour rendre ou non accessible les % d'escompte
+        DiscountDeadLineListener discountDeadLineListener = new DiscountDeadLineListener(discountDeadLineValue);
+        discountDeadLineCheckBox.addItemListener(discountDeadLineListener);
+
+        // on gère l'event lié au clic sur le bouton vlaider la commande
+        ValidateButtonListener validateButtonListener = new ValidateButtonListener();
+        validateButton.addActionListener(validateButtonListener);
 
         return supplementsFormPanel;
     }
@@ -217,6 +220,55 @@ public class NewBillRegistrationForm extends JPanel {
             ResearchArticleWindow researchArticleWindow = new ResearchArticleWindow(NewBillRegistrationForm.this);
         }
     }
+    private class ValidateButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // on créer les composants de Bill
+            Bill bill;
+            Integer numBill;
+            GregorianCalendar dateBill;
+            Boolean isDiscountBeforeDeadline;
+            Double discountBeforeDeadline = 0.00;
+            Integer discountCouponRead = 0;
+            String possibleNotices = "aucune remarque";
+            Integer idEmployee;
+            Integer idCustomer;
+
+            numBill = Integer.valueOf(idTextField.getText());
+            dateBill = new GregorianCalendar(controller.getYearJSPinner(dateSpinner),controller.getMonthJSPinner(dateSpinner),controller.getDayOfTheMonthJSPinner(dateSpinner));
+            isDiscountBeforeDeadline = discountDeadLineCheckBox.isSelected();
+            if(isDiscountBeforeDeadline){
+                discountBeforeDeadline = Double.parseDouble(discountDeadLineValue.getSelectedItem().toString());
+            }
+            if(!discountCoupon.getText().equals("")){
+                discountCouponRead = Integer.valueOf(discountCoupon.getText());
+            }
+            if(!notices.getText().equals("")){
+                possibleNotices = notices.getText();
+            }
+            idEmployee = controller.getIdEmployee(employeeComboBox.getSelectedItem().toString());
+            idCustomer = controller.getIdCustomer(customerComboBox.getSelectedItem().toString());
+
+            try {
+                bill = new Bill(numBill,dateBill,isDiscountBeforeDeadline,discountBeforeDeadline,discountCouponRead,possibleNotices,idEmployee,idCustomer);
+                controller.setBill(bill);
+                JOptionPane.showMessageDialog(null, bill.getDateBill().getTimeInMillis());
+            } catch (IdBillException idBillException) {
+                idBillException.printStackTrace();
+            } catch (NumPersonException numPersonException) {
+                numPersonException.printStackTrace();
+            }
+
+
+
+            JOptionPane.showMessageDialog(null, "idEmployee : " + idEmployee + " idCustomer : " + idCustomer);
+
+            // on créer les composants du Listing
+            Listing listing;
+
+
+        }
+    }
 
     // methods
     public void addArticleInListingTable(Article article, Integer quantity){
@@ -230,7 +282,6 @@ public class NewBillRegistrationForm extends JPanel {
         nbArticles++;
         listingArticles.repaint();
     }
-
 }
 
 
