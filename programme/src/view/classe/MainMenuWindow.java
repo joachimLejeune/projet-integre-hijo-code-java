@@ -12,11 +12,15 @@ public class MainMenuWindow extends JFrame {
     private JMenuBar menuBar;
     private JMenu applicationMenu;
     private JMenu billMenu;
+    private JMenu searchMenu;
     private JMenu infosMenu;
     private JMenuItem exitMenu;
     private JMenuItem newBillMenu;
     private JMenuItem modificationBillMenu;
     private JMenuItem deleteBillMenu;
+    private JMenuItem search1;
+    private JMenuItem search2;
+    private JMenuItem search3;
     private JMenuItem creditsMenu;
     private JMenuItem helpMenu;
     private Container mainContainer;
@@ -58,6 +62,16 @@ public class MainMenuWindow extends JFrame {
         billMenu.setMnemonic('G');
         menuBar.add(billMenu);
 
+        // Menu Recherche
+        searchMenu = new JMenu("Recherches");
+        search1 = new JMenuItem("Recherche d'employés");
+        search2 = new JMenuItem("Top 3 des employés");
+        search3 = new JMenuItem("Recherche client cible");
+        searchMenu.add(search1);
+        searchMenu.add(search2);
+        searchMenu.add(search3);
+        menuBar.add(searchMenu);
+
         // Menu infos
         infosMenu = new JMenu("Infos");
         creditsMenu = new JMenuItem("Notre entreprise");
@@ -88,14 +102,16 @@ public class MainMenuWindow extends JFrame {
         ModificationListener modificationListener = new ModificationListener();
         modificationBillMenu.addActionListener(modificationListener);
 
+        // on gère le clic sur la recherche 1
+        SearchOneListener searchOneListener = new SearchONeListener();
+        search1.addActionListener(searchOneListener);
+
         // on associe au MainMenu un FlowLayout pour le positionnement des labels
         this.setLayout(new FlowLayout());
         mainContainer = this.getContentPane();
         mainContainer.setLayout(new BorderLayout());
         welcomeMessage.setHorizontalAlignment(SwingConstants.CENTER);
         mainContainer.add(welcomeMessage,BorderLayout.NORTH);
-
-
 
         // rend la fenêtre visible
         setVisible(true);
@@ -152,6 +168,12 @@ public class MainMenuWindow extends JFrame {
             mainContainer.add(newModificationBillForm);
             mainContainer.repaint();
             setVisible(true);
+
+        }
+    }
+    private class SearchOneListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
 
         }
     }

@@ -1,2 +1,6 @@
 INSERT INTO employee(num_employee, first_name,last_name,birth_date,address,phone_number,email) VALUES(1,'Hislat','Akepaer',str_to_date('9-10-1998','%d-%m-%Y'),'Rue de la réussite 42 5000Namur',0474000000,null);
 INSERT INTO employee(num_employee, first_name,last_name,birth_date,address,phone_number,email) VALUES(2,'Joachim','Lejeune',str_to_date('18-12-1987','%d-%m-%Y'),'Chaussée de marche 250 5100 Jambes',0474000001,'etu44137@henallux.be');
+INSERT INTO employee(num_employee, first_name,last_name,birth_date,address,phone_number,email) VALUES(3,'Aude','Lekeux',str_to_date('27-10-1998','%d-%m-%Y'),'Chaussée de vaterloo 69 5000 Namur',0465848685,null);
+INSERT INTO employee(num_employee, first_name,last_name,birth_date,address,phone_number,email) VALUES(4,'Victor','Santele',str_to_date('16-03-2000','%d-%m-%Y'),'Rue de Fer 42 5000 Namur',065848592,'victorSantele@gmmail.com');
+INSERT INTO employee(num_employee, first_name,last_name,birth_date,address,phone_number,email) VALUES(5,'Thibaut','Berg',str_to_date('28-10-2001','%d-%m-%Y'),'Rue Saint-Donat 33 5002 Namur',047236966,null);
+INSERT INTO employee(num_employee, first_name,last_name,birth_date,address,phone_number,email) VALUES(6,'Nicolas','Bernard',str_to_date('07-12-2000','%d-%m-%Y'),'Chaussée de marche 250 5100 Jambes',0474000001,'nicolasBernard@hotmail.com');
