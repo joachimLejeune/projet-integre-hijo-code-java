@@ -12,13 +12,28 @@ public class Listing {
     private Integer article;
     private Integer idBill;
 
-    public Listing(Integer quantity, Double price, Integer article, Integer idBill) throws QuantityException, PriceException, IdArticleException, IdBillException {
+    public Listing(Integer quantity, Double price, Integer idBill, Integer article) throws QuantityException, PriceException, IdArticleException, IdBillException {
         setQuantity(quantity);
         setPrice(price);
         setArticle(article);
         setIdBill(idBill);
     }
 
+    // getter
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+    public Double getPrice() {
+        return price;
+    }
+    public Integer getArticle() { // pour tester des trucs
+        return this.article;
+    }
+    public Integer getIdBill() {
+        return idBill;
+    }
+    // setter
     public void setIdBill(Integer idBill) throws IdBillException {
         if (idBill instanceof Integer) {
             this.idBill = idBill;
@@ -34,7 +49,6 @@ public class Listing {
             throw new QuantityException(quantity);
         }
     }
-
     public void setPrice(Double price) throws PriceException {
         if(price <= 0){
             throw new PriceException(price);
@@ -43,7 +57,6 @@ public class Listing {
             this.price = price;
         }
     }
-
     public void setArticle(Integer article) throws IdArticleException {
         if (article instanceof Integer) {
             this.article = article;

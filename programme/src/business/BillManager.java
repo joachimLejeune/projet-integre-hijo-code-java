@@ -16,19 +16,14 @@ public class BillManager {
     private Integer idCustomer;
 
     public BillManager(){
-        // à compléter
         setDao(new BillDBAccess());
     }
 
-    public void setDao(BillDBAccess dao) {
-        this.dao = dao;
-    }
-
+    // getter
     public ArrayList<Employee> getAllEmployees() throws AllEmployeesException, PhoneNumberException, EmailException, NumPersonException {
         ArrayList<Employee> employeeList = dao.getAllEmployees();
         return employeeList;
     }
-
     public ArrayList<Customer> getAllCustomers() throws PhoneNumberException, AllCustomersException, NumPersonException, EmailException {
         ArrayList<Customer> customersList = dao.getAllCustomers();
         return customersList;
@@ -36,11 +31,9 @@ public class BillManager {
     public Integer getNextIdBill() throws GetNextIdBillException {
         return dao.getNextIdBill();
     }
-
-    public ArrayList<Article> getAllArticles() {
+    public ArrayList<Article> getAllArticles() throws GetAllArticlesException {
         return dao.getAllArticles();
     }
-
     public Integer getIdEmployee(String idFfirstAndLastNameEmployee) {
         int idFirsAndLastNameEmployeeLength = idFfirstAndLastNameEmployee.length();
         while(posFirstSpaceEmployee < idFirsAndLastNameEmployeeLength && idFfirstAndLastNameEmployee.charAt(posFirstSpaceEmployee)!=' '){
@@ -50,7 +43,6 @@ public class BillManager {
         posFirstSpaceEmployee = 0;
         return idEmployee;
     }
-
     public Integer getIdCustomer(String idFirstAndLastNameCustomer) {
         int idFirstAndLastNameCustomerLength = idFirstAndLastNameCustomer.length();
         while(posFirstSpaceCustomer < idFirstAndLastNameCustomerLength && idFirstAndLastNameCustomer.charAt(posFirstSpaceCustomer)!=' '){
@@ -61,7 +53,19 @@ public class BillManager {
         return idCustomer;
     }
 
+    // setter
+    public void setDao(BillDBAccess dao) {
+        this.dao = dao;
+    }
     public void setBill(Bill bill) {
         dao.setBill(bill);
+    }
+
+    public Integer getIdArticle(String wordingArticle) throws IdArticleException {
+        return dao.getIdArticle(wordingArticle);
+    }
+
+    public void setListings(ArrayList<Listing> listings) throws SetListingsException {
+        dao.setListings(listings);
     }
 }

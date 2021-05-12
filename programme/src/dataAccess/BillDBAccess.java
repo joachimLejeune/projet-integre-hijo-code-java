@@ -1,26 +1,24 @@
 package dataAccess;
 
 import exception.*;
-import model.Article;
-import model.Bill;
-import model.Customer;
-import model.Employee;
+import model.*;
 
-import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 public class BillDBAccess  implements BillDataAccess {
     private Connection connection;
-    private Integer idEmployee;
-    private Integer idCustomer;
+    Integer idArticle;
     Integer lastIdBill = 0;
+
+    // constructeur
     public BillDBAccess(){
         connection = SingletonConnetion.getInstance();
     }
 
-    public ArrayList<Employee> getAllEmployees() throws PhoneNumberException, EmailException, NumPersonException, AllEmployeesException {
+    // getter
+    public ArrayList<Employee> getAllEmployees() throws PhoneNumberException, NumPersonException, AllEmployeesException {
         ArrayList<Employee> employeesList = new ArrayList<>();
         Employee employee;
 
@@ -53,13 +51,12 @@ public class BillDBAccess  implements BillDataAccess {
 
             }
             catch(SQLException e){
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Problème lors de la connection à la base de donnée");
+                throw new AllEmployeesException();
             }
         }
         return employeesList;
     }
-    public ArrayList<Customer> getAllCustomers() throws PhoneNumberException, EmailException, NumPersonException, AllCustomersException {
+    public ArrayList<Customer> getAllCustomers() throws PhoneNumberException, NumPersonException, AllCustomersException {
         ArrayList<Customer> customersList = new ArrayList<>();
         Customer customer;
 
@@ -82,30 +79,12 @@ public class BillDBAccess  implements BillDataAccess {
                 //connection.close();
             }
             catch(SQLException e){
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Problème lors de la connection à la base de donnée");
+                throw new AllCustomersException();
             }
         }
         return customersList;
     }
-    public Integer getNextIdBill() throws GetNextIdBillException { // pas sur qu'un ArrayList soit pertinent
-
-        if(connection!=null){
-            try{
-                String sqlInstruction = "select max(id_bill) from bill";
-                PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-                ResultSet data = preparedStatement.executeQuery();
-                data.next();
-                lastIdBill = data.getInt("max(id_bill)");
-                //connection.close();
-            }
-            catch(SQLException e){
-                throw new GetNextIdBillException();
-            }
-        }
-        return lastIdBill+1;
-    }
-    public ArrayList<Article> getAllArticles(){
+    public ArrayList<Article> getAllArticles() throws GetAllArticlesException{
         ArrayList<Article> articlesList = new ArrayList<>();
         Article article;
         if(connection!=null){
@@ -121,8 +100,7 @@ public class BillDBAccess  implements BillDataAccess {
                 }
             }
             catch(SQLException e){
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Problème lors de la connection à la base de donnée");
+                throw new GetAllArticlesException();
             } catch (IdArticleException e) {
                 e.printStackTrace();
             } catch (VATException e) {
@@ -135,44 +113,44 @@ public class BillDBAccess  implements BillDataAccess {
         }
         return articlesList;
     }
-//    public Integer getIdEmployee(String firstNameEmployee, String lastNameEmployee){
-//        try{
-//            String sqlInstruction = "select num_employee from employee where first_name = ? and last_name = ?";
-//            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-//            preparedStatement.setString(1,firstNameEmployee);
-//            preparedStatement.setString(2,lastNameEmployee);
-//            ResultSet data = preparedStatement.executeQuery();
-//            if(data.next()){
-//                idEmployee =  data.getInt("num_employee");
-//            }
-//        }
-//        catch(SQLException e){
-//            e.printStackTrace();
-//        }
-//        return idEmployee;
-//    }
-//    public Integer getIdCustomer(String firstNameCustomer, String lastNameCustomer){
-//        try{
-//            String sqlInstruction = "select num_customer from customer where first_name = ? and last_name = ?";
-//            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-//            preparedStatement.setString(1,firstNameCustomer);
-//            preparedStatement.setString(2,lastNameCustomer);
-//            ResultSet data = preparedStatement.executeQuery();
-//            if(data.next()){
-//                idCustomer = data.getInt("num_customer");
-//            }
-//        }
-//        catch(SQLException e){
-//            e.printStackTrace();
-//        }
-//        return idCustomer;
-//    }
 
+    public Integer getNextIdBill() throws GetNextIdBillException {
+        if(connection!=null){
+            try{
+                String sqlInstruction = "select max(id_bill) from bill";
+                PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+                ResultSet data = preparedStatement.executeQuery();
+                data.next();
+                lastIdBill = data.getInt("max(id_bill)");
+                //connection.close();
+            }
+            catch(SQLException e){
+                throw new GetNextIdBillException();
+            }
+        }
+        return lastIdBill+1;
+    }
+    public int getIdArticle(String wordingArticle) throws IdArticleException {
+        if(connection!=null) {
+            try {
+                String sqlInstruction = "select id_article from article where wording = ?";
+                PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+                preparedStatement.setString(1, wordingArticle);
+                ResultSet data = preparedStatement.executeQuery();
+                data.next();
+                idArticle = data.getInt("id_article");
+            } catch (SQLException e) {
+                throw new IdArticleException();
+            }
+        }
+        return idArticle;
+    }
 
+    // setter
     public void setBill(Bill bill){
         if(connection != null){
             try{
-                String sqlInstruction = "insert into bill value(?,?,?,?,?,?,?,?)";
+                String sqlInstruction = "insert into bill value(?,?,?,?,?,?,?,?);";
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
                 preparedStatement.setInt(1,bill.getIdBill());
                 preparedStatement.setDate(2, new java.sql.Date(bill.getDateBill().getTimeInMillis()));
@@ -185,8 +163,28 @@ public class BillDBAccess  implements BillDataAccess {
                 preparedStatement.executeUpdate();
             }
             catch(SQLException e){
-                e.printStackTrace();
+                e.printStackTrace(); // à changer ralalala
             }
         }
     }
+    public void setListings(ArrayList<Listing> listings) throws SetListingsException {
+        if(connection != null){
+            try {
+                String sqlInstruction = "insert into listing values(?,?,?,?);";
+                PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+                for (Listing listing:
+                     listings) {
+                    preparedStatement.setInt(1,listing.getQuantity());
+                    preparedStatement.setDouble(2,listing.getPrice());
+                    preparedStatement.setInt(3, listing.getIdBill());
+                    preparedStatement.setInt(4, listing.getArticle());
+                    preparedStatement.executeUpdate();
+                }
+
+            } catch (SQLException throwables) {
+                throw new SetListingsException();
+            }
+        }
+    }
+
 }

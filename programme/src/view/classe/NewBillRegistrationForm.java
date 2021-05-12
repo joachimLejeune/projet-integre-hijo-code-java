@@ -5,7 +5,7 @@ import exception.*;
 import model.*;
 
 import javax.swing.*;
-import javax.swing.table.TableColumn;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,6 +21,7 @@ public class NewBillRegistrationForm extends JPanel {
     private JPanel supplementsFormPanel;
     private static String compagnyAddress = "Rue de la Joyeuseté 42, 5000 Namur";
     private static Integer nbArticles = 0;
+    private ApplicationControler controller; // servira à la communication avec la couche en dessous
     JLabel idLabel, addressLabel, dateLabel, employeeLabel, customerLabel,totalPriceBillLabel,discountDeadLineLabel,discountCouponLabel,noticesLabel;
     JTextField idTextField, adressTextField,totalPriceBill,discountCoupon;
     JSpinner dateSpinner;
@@ -31,11 +32,17 @@ public class NewBillRegistrationForm extends JPanel {
     JPanel discountDeadLineGroup;
     JScrollPane scrollPane;
     JTable listingArticles;
-    Object[][] rowData = new Object[50][6];
-    String[] columnNames = {"Articles", "Quantité","Prix unitaire HTVA","Prix total HTVA","TVA", "Prix total TVAC"};
+    ArrayList<RowListing> rowListings = new ArrayList<>();
+    ArrayList<String> columnNames;
+    MyTableModel myTableModel;
+    Listing listing;
+    Integer quantity;
+    Double price;
+    Integer idBill;
+    Integer idArticle;
 
-    private ApplicationControler controller; // servira à la communication avec la couche en dessous
 
+    // constructeur
     public NewBillRegistrationForm(){
         this.setLayout(new BorderLayout());
         informationsFormPanel = new JPanel();
@@ -140,9 +147,11 @@ public class NewBillRegistrationForm extends JPanel {
         return articlesButtonsFormPanel;
     }
     public JPanel ArticlesFormPanelBuild(){
-        listingArticles = new JTable(rowData,columnNames);
+        myTableModel = new MyTableModel(rowListings);
+        listingArticles = new JTable(myTableModel);
         scrollPane = new JScrollPane(listingArticles);
         scrollPane.setPreferredSize(new Dimension(600,350));
+        listingArticles.setFillsViewportHeight(true);
 
         articlesFormPanel.add(scrollPane);
 
@@ -200,6 +209,7 @@ public class NewBillRegistrationForm extends JPanel {
         this.controller = applicationControler;
     }
 
+
     // getter
 
     // listener
@@ -217,7 +227,11 @@ public class NewBillRegistrationForm extends JPanel {
     private class AddArticleListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            ResearchArticleWindow researchArticleWindow = new ResearchArticleWindow(NewBillRegistrationForm.this);
+            try {
+                ResearchArticleWindow researchArticleWindow = new ResearchArticleWindow(NewBillRegistrationForm.this);
+            } catch (GetAllArticlesException getAllArticlesException) {
+                getAllArticlesException.getMessage();
+            }
         }
     }
     private class ValidateButtonListener implements ActionListener{
@@ -252,37 +266,62 @@ public class NewBillRegistrationForm extends JPanel {
             try {
                 bill = new Bill(numBill,dateBill,isDiscountBeforeDeadline,discountBeforeDeadline,discountCouponRead,possibleNotices,idEmployee,idCustomer);
                 controller.setBill(bill);
-                JOptionPane.showMessageDialog(null, bill.getDateBill().getTimeInMillis());
             } catch (IdBillException idBillException) {
-                idBillException.printStackTrace();
+                idBillException.getMessage();
             } catch (NumPersonException numPersonException) {
-                numPersonException.printStackTrace();
+                numPersonException.getMessage();
             }
 
 
-
-            JOptionPane.showMessageDialog(null, "idEmployee : " + idEmployee + " idCustomer : " + idCustomer);
-
-            // on créer les composants du Listing
+            // on créer les composants des Listings
+            ArrayList<Listing> listings = new ArrayList<>();
             Listing listing;
 
+            for(int i=0;i<listingArticles.getRowCount();i++){
+                try {
+                    listing = new Listing(Integer.valueOf(listingArticles.getValueAt(i,1).toString()),
+                            Double.parseDouble(listingArticles.getValueAt(i,2).toString()),
+                            numBill,
+                            controller.getIdArticle(listingArticles.getValueAt(i,0).toString()));
+                    listings.add(listing);
+                } catch (QuantityException quantityException) {
+                    quantityException.printStackTrace();
+                } catch (PriceException priceException) {
+                    priceException.printStackTrace();
+                } catch (IdArticleException idArticleException) {
+                    idArticleException.printStackTrace();
+                } catch (IdBillException idBillException) {
+                    idBillException.printStackTrace();
+                }
+            }
 
+            try {
+                controller.setListings(listings);
+            } catch (SetListingsException setListingsException) {
+                setListingsException.printStackTrace();
+            }
         }
     }
 
-    // methods
+    // methodes
     public void addArticleInListingTable(Article article, Integer quantity){
-        rowData[nbArticles][0] = article.getWording();
-        rowData[nbArticles][1] = quantity;
-        rowData[nbArticles][2] = article.getPrice();
         Double totalPriceWVAT = (Double)(article.getPrice()) * quantity;
-        rowData[nbArticles][3] = totalPriceWVAT;
-        rowData[nbArticles][4] = article.getVAT();
-        rowData[nbArticles][5] = totalPriceWVAT + (totalPriceWVAT * article.getVAT());
+        RowListing rowListing = new RowListing(article.getWording(),quantity, article.getPrice(), totalPriceWVAT, article.getVAT(), totalPriceWVAT + (totalPriceWVAT * article.getVAT()));
+
+        myTableModel.setRow(rowListing);
+
         nbArticles++;
         listingArticles.repaint();
     }
+    public void upDateTotalPrice(Article article){
+        Double totalPrice;
+        if(totalPriceBill.getSelectedText() == null){
+            totalPrice = 0.0;
+        }
+        else{
+            totalPrice = Double.parseDouble(totalPriceBill.getSelectedText());
+        }
+        totalPrice += article.getPrice();
+        totalPriceBill.setText(totalPrice.toString());
+    }
 }
-
-
-// penser à ajouter un cadre pour afficher le prix total à payer à la fin qui se met à jour dès qu'une nouvelle ligne se rajoute dans le listing

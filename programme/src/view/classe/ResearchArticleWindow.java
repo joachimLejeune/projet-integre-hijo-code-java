@@ -1,6 +1,7 @@
 package view.classe;
 
 import controller.ApplicationControler;
+import exception.GetAllArticlesException;
 import model.*;
 
 import javax.swing.*;
@@ -19,7 +20,7 @@ public class ResearchArticleWindow extends JFrame {
     private NewBillRegistrationForm newBillRegistrationForm;
     private ApplicationControler controller;
 
-    public ResearchArticleWindow(NewBillRegistrationForm newBillRegistrationForm){
+    public ResearchArticleWindow(NewBillRegistrationForm newBillRegistrationForm) throws GetAllArticlesException {
         super("Recherche d'un article");
         setBounds(400,200,400,150);
 
@@ -65,24 +66,13 @@ public class ResearchArticleWindow extends JFrame {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-//            Article articleRead = articles.get(articles.indexOf(researchArticleWindow.articlesChoiceComboBox.getSelectedItem()));
-//            Article articleRead;
-//            for(Article articleRead2 : articles){
-//                if(articleRead2.getWording() == researchArticleWindow.articlesChoiceComboBox.getSelectedItem()){
-//                    articleRead = articleRead2;
-//                }
-//            }
-//            JOptionPane.showMessageDialog(null,researchArticleWindow.articlesChoiceComboBox.getSelectedItem());
             String wordingSelected = (String)researchArticleWindow.articlesChoiceComboBox.getSelectedItem();
             for(Article articleRead : articles){
                 if(articleRead.getWording().equals(wordingSelected)){
                     newBillRegistrationForm.addArticleInListingTable(articleRead,Integer.valueOf(researchArticleWindow.quantityArticle.getSelectedItem().toString()));
+//                    newBillRegistrationForm.upDateTotalPrice(articleRead);
                 }
             }
-//            researchArticleWindow.articlesChoiceComboBox.getSelectedItem();
-//            JOptionPane.showMessageDialog(null,articles.get(0).getWording());
-//            JOptionPane.showMessageDialog(null,researchArticleWindow.quantityArticle.getSelectedItem());
-//            newBillRegistrationForm.addArticleInListingTable(articleSearched,researchArticleWindow.quantityArticle.getSelectedItem());
         }
     }
 }

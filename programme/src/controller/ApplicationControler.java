@@ -33,7 +33,7 @@ public class ApplicationControler {
     public Integer getNextIdBill() throws GetNextIdBillException {
         return manager.getNextIdBill();
     }
-    public ArrayList<Article> getAllArticles() {
+    public ArrayList<Article> getAllArticles() throws GetAllArticlesException {
         return manager.getAllArticles();
     }
 
@@ -57,5 +57,13 @@ public class ApplicationControler {
 
     public void setBill(Bill bill) {
         manager.setBill(bill);
+    }
+
+    public Integer getIdArticle(String wordingArticle) throws IdArticleException {
+        return manager.getIdArticle(wordingArticle);
+    }
+
+    public void setListings(ArrayList<Listing> listings) throws SetListingsException {
+        manager.setListings(listings);
     }
 }
