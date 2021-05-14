@@ -2,10 +2,12 @@ package business;
 
 import dataAccess.*;
 import exception.*;
-import model.*;
+import model.originalDBClasse.*;
+import model.tableModelTool.SearchOne;
+import model.tableModelTool.SearchThree;
 
-import javax.swing.*;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 public class BillManager {
     private BillDBAccess dao;
@@ -52,6 +54,9 @@ public class BillManager {
         posFirstSpaceCustomer = 0;
         return idCustomer;
     }
+    public Integer getIdArticle(String wordingArticle) throws IdArticleException {
+        return dao.getIdArticle(wordingArticle);
+    }
 
     // setter
     public void setDao(BillDBAccess dao) {
@@ -60,12 +65,16 @@ public class BillManager {
     public void setBill(Bill bill) {
         dao.setBill(bill);
     }
-
-    public Integer getIdArticle(String wordingArticle) throws IdArticleException {
-        return dao.getIdArticle(wordingArticle);
-    }
-
     public void setListings(ArrayList<Listing> listings) throws SetListingsException {
         dao.setListings(listings);
+    }
+
+
+    public ArrayList<SearchOne> getSearchOne(GregorianCalendar firstDate, GregorianCalendar lastDate, Integer idCustomer) throws GetSearchOneException {
+        return dao.getSearchOne(firstDate, lastDate, idCustomer);
+    }
+
+    public ArrayList<SearchThree> getSearchThree(Integer idArticle) {
+        return dao.getSearchThree(idArticle);
     }
 }

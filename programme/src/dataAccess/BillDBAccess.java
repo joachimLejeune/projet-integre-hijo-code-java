@@ -1,7 +1,10 @@
 package dataAccess;
 
+import dataAccess.dBInterface.BillDataAccess;
 import exception.*;
-import model.*;
+import model.originalDBClasse.*;
+import model.tableModelTool.SearchOne;
+import model.tableModelTool.SearchThree;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -187,4 +190,59 @@ public class BillDBAccess  implements BillDataAccess {
         }
     }
 
+    public ArrayList<SearchOne> getSearchOne(GregorianCalendar firstDate, GregorianCalendar lastDate, Integer idCustomer) throws GetSearchOneException {
+        ArrayList<SearchOne> employeesSearchOne = new ArrayList<>();
+        SearchOne employeeSearchOne;
+        if(connection != null){
+            try{
+                String sqlInstruction = "select e.first_name, e.last_name, b.date_bill from employee e " +
+                        " join bill b on e.num_employee = b.employee" +
+                        " join customer c on b.customer = c.num_customer" +
+                        " where date_bill between ? and ? and c.num_customer = ?" +
+                        " group by e.last_name;";
+//                String sqlInstruction = "select first_name, last_name, birth_date from customer";
+                PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+                preparedStatement.setDate(1, new java.sql.Date(firstDate.getTimeInMillis()));
+                preparedStatement.setDate(2, new java.sql.Date(lastDate.getTimeInMillis()));
+                preparedStatement.setInt(3,idCustomer);
+                ResultSet data = preparedStatement.executeQuery();
+                java.sql.Date dateBill;
+                while(data.next()){
+                    dateBill = data.getDate("date_bill");
+                    employeeSearchOne = new SearchOne(data.getString("first_name"),data.getString("last_name"),dateBill);
+                    employeesSearchOne.add(employeeSearchOne);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new GetSearchOneException();
+            }
+        }
+        return employeesSearchOne;
+    }
+
+    public ArrayList<SearchThree> getSearchThree(Integer idArticle) {
+        ArrayList<SearchThree> customerSearchThrees = new ArrayList<>();
+        SearchThree customerSearchThree;
+        if(connection != null){
+            try{
+                String sqlInstruction = "select c.first_name, c.last_name, sum(quantity) from article a" +
+                        " join listing l on a.id_article = l.article" +
+                        " join bill b on l.bill = b.id_bill" +
+                        " join customer c on b.customer = c.num_customer" +
+                        " where id_article = ?" +
+                        " group by c.last_name" +
+                        " order by sum(quantity) desc;";
+                PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+                preparedStatement.setInt(1, idArticle);
+                ResultSet data = preparedStatement.executeQuery();
+                while(data.next()){
+                    customerSearchThree = new SearchThree(data.getString("first_name"),data.getString("last_name"),data.getInt("sum(quantity)"));
+                    customerSearchThrees.add(customerSearchThree);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return customerSearchThrees;
+    }
 }

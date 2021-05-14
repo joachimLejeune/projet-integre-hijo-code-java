@@ -2,10 +2,13 @@ package controller;
 
 import business.*;
 import exception.*;
-import model.*;
+import model.originalDBClasse.*;
+import model.tableModelTool.SearchOne;
+import model.tableModelTool.SearchThree;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 public class ApplicationControler {
     private BillManager manager;
@@ -65,5 +68,13 @@ public class ApplicationControler {
 
     public void setListings(ArrayList<Listing> listings) throws SetListingsException {
         manager.setListings(listings);
+    }
+
+    public ArrayList<SearchOne> getSearchOne(GregorianCalendar firstDate, GregorianCalendar lastDate, Integer idCustomer) throws GetSearchOneException {
+        return manager.getSearchOne(firstDate,lastDate,idCustomer);
+    }
+
+    public ArrayList<SearchThree> getSearchThree(Integer idArticle) {
+        return manager.getSearchThree(idArticle);
     }
 }
