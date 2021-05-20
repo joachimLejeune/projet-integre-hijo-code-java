@@ -2,6 +2,7 @@ package view.classe.window;
 
 import exception.*;
 import model.tableModelTool.SearchThree;
+import model.tableModelTool.SearchTwo;
 import view.classe.form.*;
 
 import javax.swing.*;
@@ -63,7 +64,7 @@ public class MainMenuWindow extends JFrame {
         modificationBillMenu.setEnabled(false);
         billMenu.add(modificationBillMenu);
         deleteBillMenu = new JMenuItem("Supprimer");
-        deleteBillMenu.setEnabled(false);
+        deleteBillMenu.setEnabled(true);
         billMenu.add(deleteBillMenu);
         billMenu.setMnemonic('G');
         menuBar.add(billMenu);
@@ -72,6 +73,7 @@ public class MainMenuWindow extends JFrame {
         searchMenu = new JMenu("Recherches");
         search1 = new JMenuItem("Recherche d'employés");
         search2 = new JMenuItem("Top 3 des employés");
+        search2.setEnabled(false);
         search3 = new JMenuItem("Recherche client cible");
         searchMenu.add(search1);
         searchMenu.add(search2);
@@ -108,9 +110,17 @@ public class MainMenuWindow extends JFrame {
         ModificationListener modificationListener = new ModificationListener();
         modificationBillMenu.addActionListener(modificationListener);
 
+        // on gère le clic sur supprimer
+        DeleteBillListener deleteBillListener = new DeleteBillListener();
+        deleteBillMenu.addActionListener(deleteBillListener);
+
         // on gère le clic sur la recherche 1
         SearchOneListener searchOneListener = new SearchOneListener();
         search1.addActionListener(searchOneListener);
+
+        // on gère le clic sur la recherche 2
+        SearchTwoListener searchTwoListener = new SearchTwoListener();
+        search2.addActionListener(searchTwoListener);
 
         // on gère le clic sur la recherche 3
         SearchThreeListener searchThreeListener = new SearchThreeListener();
@@ -131,7 +141,6 @@ public class MainMenuWindow extends JFrame {
     public Container getMainContainer() {
         return mainContainer;
     }
-
     // setters
 
     // listeners
@@ -181,6 +190,17 @@ public class MainMenuWindow extends JFrame {
 
         }
     }
+    private class DeleteBillListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            DeleteBillForm deleteBillForm = new DeleteBillForm();
+            setBounds(750,200,900,300);
+            mainContainer.removeAll();
+            mainContainer.add(deleteBillForm);
+            mainContainer.repaint();
+            setVisible(true);
+        }
+    }
     private class SearchOneListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -203,6 +223,28 @@ public class MainMenuWindow extends JFrame {
 
         }
     }
+    private class SearchTwoListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            setBounds(750,200,635,400);
+            try {
+                SearchTwoForm searchTwoForm = new SearchTwoForm();
+                mainContainer.removeAll();
+                mainContainer.add(searchTwoForm);
+                mainContainer.repaint();
+                setVisible(true);
+            } catch (PhoneNumberException phoneNumberException) {
+                phoneNumberException.printStackTrace();
+            } catch (EmailException emailException) {
+                emailException.printStackTrace();
+            } catch (AllEmployeesException allEmployeesException) {
+                allEmployeesException.printStackTrace();
+            } catch (NumPersonException numPersonException) {
+                numPersonException.printStackTrace();
+            }
+
+        }
+    }
     private class SearchThreeListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -215,6 +257,14 @@ public class MainMenuWindow extends JFrame {
                 setVisible(true);
             } catch (GetAllArticlesException getAllArticlesException) {
                 getAllArticlesException.printStackTrace();
+            } catch (IdArticleException idArticleException) {
+                idArticleException.getMessage();
+            } catch (VATException vatException) {
+                vatException.getMessage();
+            } catch (PriceException priceException) {
+                priceException.getMessage();
+            } catch (NumAisleException numAisleException) {
+                numAisleException.getMessage();
             }
 
         }

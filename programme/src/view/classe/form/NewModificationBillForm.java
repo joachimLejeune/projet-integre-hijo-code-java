@@ -1,21 +1,43 @@
 package view.classe.form;
 
 import controller.ApplicationControler;
+import model.originalDBClasse.Listing;
+import model.tableModelTool.RowListing;
+import view.classe.tableModel.MyTableModel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-public class NewModificationBillForm extends JPanel {
+public class NewModificationBillForm extends JPanel { // en cours de modification mais sans la feature de modification d'une facture de NewBillRegistrationForm je sais pas aller plus loin
 
     private JPanel informationsFormPanel;
     private JPanel articlesButtonsFormPanel;
     private JPanel articlesFormPanel;
     private JPanel supplementsFormPanel;
     private static String compagnyAddress = "Rue de la Joyeuseté 42, 5000 Namur";
-
+    private static Integer nbArticles = 0;
     private ApplicationControler controller; // servira à la communication avec la couche en dessous
+    JLabel idLabel, addressLabel, dateLabel, employeeLabel, customerLabel,totalPriceBillLabel,discountDeadLineLabel,discountCouponLabel,noticesLabel;
+    JTextField idTextField, adressTextField,totalPriceBill,discountCoupon;
+    JSpinner dateSpinner;
+    JComboBox employeeComboBox, customerComboBox,discountDeadLineValue;
+    JButton addArticleButton, modArticleButton, delArticleButton,validateButton;
+    JTextArea notices;
+    JCheckBox discountDeadLineCheckBox;
+    JPanel discountDeadLineGroup;
+    JScrollPane scrollPane;
+    JTable listingArticles;
+    ArrayList<RowListing> rowListings = new ArrayList<>();
+    ArrayList<String> columnNames;
+    MyTableModel myTableModel;
+    Listing listing;
+    Integer quantity;
+    Double price;
+    Integer idBill;
+    Integer idArticle;
 
     public NewModificationBillForm(){
         this.setLayout(new BorderLayout());
@@ -31,7 +53,6 @@ public class NewModificationBillForm extends JPanel {
         articlesButtonsFormPanel = new JPanel();
         articlesButtonsFormPanel = ArticlesButtonsFormPanelBuild();
         groupButtonsListing.add(articlesButtonsFormPanel,BorderLayout.NORTH);
-
 
         articlesFormPanel = new JPanel();
         articlesFormPanel = ArticlesFormPanelBuild();
@@ -84,16 +105,6 @@ public class NewModificationBillForm extends JPanel {
         return informationsFormPanel;
     }
     public JPanel ArticlesButtonsFormPanelBuild(){
-//        JButton addArticleButton, modArticleButton, delArticleButton;
-//        addArticleButton = new JButton("Ajouter un article");
-//        modArticleButton = new JButton("Modifier un article");
-//        delArticleButton = new JButton("Supprimer un article");
-//        articlesButtonsFormPanel.add(addArticleButton,BorderLayout.WEST);
-//        articlesButtonsFormPanel.add(modArticleButton,BorderLayout.CENTER);
-//        articlesButtonsFormPanel.add(delArticleButton,BorderLayout.EAST);
-//
-//        articlesButtonsFormPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-
         JButton searchButton;
         searchButton = new JButton("Rechercher");
         articlesButtonsFormPanel.add(searchButton);

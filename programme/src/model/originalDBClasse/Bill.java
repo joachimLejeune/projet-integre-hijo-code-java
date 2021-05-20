@@ -3,6 +3,7 @@ package model.originalDBClasse;
 import exception.IdBillException;
 import exception.NumPersonException;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class Bill {
@@ -25,6 +26,9 @@ public class Bill {
         setEmployee(employee);
         setCustomer(customer);
     }
+    public Bill(Integer idBill, Integer employee, Integer customer) throws IdBillException, NumPersonException {
+        this(idBill,null,null,null,null,null,employee,customer);
+    }
 
     // getter
     public Integer getIdBill(){
@@ -33,7 +37,10 @@ public class Bill {
     public GregorianCalendar getDateBill() {
         return dateBill;
     }
-    public Boolean getIsDiscount() {
+    public Date getDateBillOtherDateFormat(){
+        return dateBill.getTime();
+    }
+    public Boolean isDiscountBeforeDeadLine() {
         return isDiscount;
     }
     public Double getDiscount() {
@@ -60,6 +67,41 @@ public class Bill {
             throw new IdBillException(idBill);
         }
     }
+    public void setDateBill(GregorianCalendar dateBill) {
+        if(dateBill != null){
+            this.dateBill = dateBill;
+        }
+        else{
+            this.dateBill = new GregorianCalendar();
+        }
+    }
+    public void setDiscount(Boolean discount) {
+        if(discount!= null){
+            this.isDiscount = discount;
+        }
+        else{
+            this.isDiscount = false;
+        }
+    }
+    public void setDiscount(Double discount) {
+        if(discount!=null){
+            this.discount = discount;
+        }
+        else{
+            this.discount = 0.0;
+        }
+    }
+    public void setDiscountCoupon(Integer discountCoupon) {
+        if(discountCoupon!=null){
+            this.discountCoupon = discountCoupon;
+        }
+        else{
+            this.discountCoupon = 0;
+        }
+    }
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
     public void setEmployee(Integer employee) throws NumPersonException {
         if (employee instanceof Integer) {
             this.employee = employee;
@@ -73,5 +115,9 @@ public class Bill {
         } else {
             throw new NumPersonException(customer);
         }
+    }
+
+    public String getPossibleRemarks() {
+        return remarks;
     }
 }

@@ -15,7 +15,7 @@ public class MySearchThreeTableModel extends AbstractTableModel {
         columnNames = new ArrayList<>();
         columnNames.add("Prénom");
         columnNames.add("Nom");
-        columnNames.add("Somme totale");
+        columnNames.add("Nombre total d'articles");
         setRowSearchOnes(rowSearchThrees);
     }
     public void setRowSearchOnes(ArrayList<SearchThree> rowSearchThrees) {
@@ -51,10 +51,10 @@ public class MySearchThreeTableModel extends AbstractTableModel {
     }
     public Class getColumnClass(int column){
         Class c;
-        switch (column) {
-            case 2: return Integer.class;
-            default: return String.class;
+        if (column == 2) {
+            return Integer.class;
         }
+        return String.class;
     }
     @Override
     public String getColumnName(int column) {

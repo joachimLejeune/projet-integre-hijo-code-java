@@ -5,14 +5,14 @@ import exception.*;
 import model.originalDBClasse.*;
 import model.tableModelTool.RowListing;
 import view.classe.tableModel.MyTableModel;
+import view.classe.window.PointsWindow;
 import view.classe.window.ResearchArticleWindow;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
@@ -21,14 +21,16 @@ public class NewBillRegistrationForm extends JPanel {
     private JPanel articlesButtonsFormPanel;
     private JPanel articlesFormPanel;
     private JPanel supplementsFormPanel;
-    private static String compagnyAddress = "Rue de la Joyeuseté 42, 5000 Namur";
-    private static Integer nbArticles = 0;
+    private static final String companyAddress = "Rue de la Joyeuseté 42, 5000 Namur";
     private ApplicationControler controller; // servira à la communication avec la couche en dessous
+    private double totalBill = 0.0;
     JLabel idLabel, addressLabel, dateLabel, employeeLabel, customerLabel,totalPriceBillLabel,discountDeadLineLabel,discountCouponLabel,noticesLabel;
     JTextField idTextField, adressTextField,totalPriceBill,discountCoupon;
     JSpinner dateSpinner;
-    JComboBox employeeComboBox, customerComboBox,discountDeadLineValue;
-    JButton addArticleButton, modArticleButton, delArticleButton,validateButton;
+    JComboBox employeeComboBox;
+    JComboBox customerComboBox;
+    JComboBox discountDeadLineValue;
+    JButton addArticleButton, modArticleButton, delArticleButton,validateButton, totalButton;
     JTextArea notices;
     JCheckBox discountDeadLineCheckBox;
     JPanel discountDeadLineGroup;
@@ -46,6 +48,7 @@ public class NewBillRegistrationForm extends JPanel {
 
     // constructeur
     public NewBillRegistrationForm(){
+
         this.setLayout(new BorderLayout());
         informationsFormPanel = new JPanel();
         informationsFormPanel.setLayout(new GridLayout(5,2,5,5));
@@ -71,6 +74,7 @@ public class NewBillRegistrationForm extends JPanel {
 
         this.add(supplementsFormPanel,BorderLayout.SOUTH);
 
+
     }
 
     // méthode de construction
@@ -80,7 +84,7 @@ public class NewBillRegistrationForm extends JPanel {
         idTextField = new JTextField();
         idTextField.setEnabled(false);
         addressLabel = new JLabel("adresse de la société :",SwingConstants.CENTER);
-        adressTextField = new JTextField(compagnyAddress);
+        adressTextField = new JTextField(companyAddress);
         adressTextField.setEnabled(false);
         dateLabel = new JLabel("Date de facturation :",SwingConstants.CENTER);
         dateSpinner = new JSpinner(new SpinnerDateModel());
@@ -170,9 +174,10 @@ public class NewBillRegistrationForm extends JPanel {
     public JPanel SupplementsFormPanel(){
         supplementsFormPanel.setLayout(new BorderLayout());
 
-        totalPriceBillLabel = new JLabel("Prix total à payer");
-        totalPriceBill = new JTextField();
-        totalPriceBill.setColumns(6);
+//        totalPriceBillLabel = new JLabel("Prix total à payer TVAC");
+//        totalPriceBill = new JTextField();
+//        totalPriceBill.setColumns(6);
+        totalButton = new JButton("Total TVAC");
         noticesLabel = new JLabel("Remarques : ");
         notices = new JTextArea();
         discountDeadLineGroup = new JPanel();
@@ -194,8 +199,9 @@ public class NewBillRegistrationForm extends JPanel {
         discountDeadLineGroup.add(discountDeadLineValue);
         discountDeadLineGroup.add(discountCouponLabel);
         discountDeadLineGroup.add(discountCoupon);
-        discountDeadLineGroup.add(totalPriceBillLabel);
-        discountDeadLineGroup.add(totalPriceBill);
+//        discountDeadLineGroup.add(totalPriceBillLabel);
+//        discountDeadLineGroup.add(totalPriceBill);
+        discountDeadLineGroup.add(totalButton);
 
         supplementsFormPanel.add(noticesLabel,BorderLayout.WEST);
         supplementsFormPanel.add(notices, BorderLayout.CENTER);
@@ -210,6 +216,10 @@ public class NewBillRegistrationForm extends JPanel {
         ValidateButtonListener validateButtonListener = new ValidateButtonListener();
         validateButton.addActionListener(validateButtonListener);
 
+        // gestion de l'event lié au clic sur Total TVAC Button
+        TotalButtonListener totalButtonListener = new TotalButtonListener();
+        totalButton.addActionListener(totalButtonListener);
+
         return supplementsFormPanel;
     }
 
@@ -218,13 +228,17 @@ public class NewBillRegistrationForm extends JPanel {
         this.controller = applicationControler;
     }
 
-
-
-
     // getter
+    public double getTotalBill() {
+        return totalBill;
+    }
+
+    public JPanel getArticlesFormPanel() {
+        return articlesFormPanel;
+    }
 
     // listener
-    private class DiscountDeadLineListener implements ItemListener{
+    private static class DiscountDeadLineListener implements ItemListener{
         private JComboBox discountValues;
         public DiscountDeadLineListener(JComboBox discountValues){
             this.discountValues = discountValues;
@@ -242,81 +256,115 @@ public class NewBillRegistrationForm extends JPanel {
                 ResearchArticleWindow researchArticleWindow = new ResearchArticleWindow(NewBillRegistrationForm.this);
             } catch (GetAllArticlesException getAllArticlesException) {
                 getAllArticlesException.getMessage();
+            } catch (IdArticleException idArticleException) {
+                idArticleException.getMessage();
+            } catch (VATException vatException) {
+                vatException.getMessage();
+            } catch (PriceException priceException) {
+                priceException.getMessage();
+            } catch (NumAisleException numAisleException) {
+                numAisleException.getMessage();
             }
         }
     }
     private class ModArticleListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            // à implémenter
         }
     }
     private class ValidateButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            // on créer les composants de Bill
-            Bill bill;
-            Integer numBill;
-            GregorianCalendar dateBill;
-            Boolean isDiscountBeforeDeadline;
-            Double discountBeforeDeadline = 0.00;
-            Integer discountCouponRead = 0;
-            String possibleNotices = "aucune remarque";
-            Integer idEmployee;
-            Integer idCustomer;
-
-            numBill = Integer.valueOf(idTextField.getText());
-            dateBill = new GregorianCalendar(controller.getYearJSPinner(dateSpinner),controller.getMonthJSPinner(dateSpinner),controller.getDayOfTheMonthJSPinner(dateSpinner));
-            isDiscountBeforeDeadline = discountDeadLineCheckBox.isSelected();
-            if(isDiscountBeforeDeadline){
-                discountBeforeDeadline = Double.parseDouble(discountDeadLineValue.getSelectedItem().toString());
+            if(listingArticles.getRowCount()==0)
+            {
+                JOptionPane.showMessageDialog(null,"Vous ne pouvez pas envoyer de facture sans inclure d'article.","Champs obligatoires !",JOptionPane.WARNING_MESSAGE);
             }
-            if(!discountCoupon.getText().equals("")){
-                discountCouponRead = Integer.valueOf(discountCoupon.getText());
-            }
-            if(!notices.getText().equals("")){
-                possibleNotices = notices.getText();
-            }
-            idEmployee = controller.getIdEmployee(employeeComboBox.getSelectedItem().toString());
-            idCustomer = controller.getIdCustomer(customerComboBox.getSelectedItem().toString());
+            else{
+                // on créer les composants de Bill
+                Bill bill;
+                Integer numBill;
+                GregorianCalendar dateBill;
+                Boolean isDiscountBeforeDeadline;
+                Double discountBeforeDeadline = 0.00;
+                Integer discountCouponRead = 0;
+                String possibleNotices = "aucune remarque";
+                Integer idEmployee;
+                Integer idCustomer;
 
-            try {
-                bill = new Bill(numBill,dateBill,isDiscountBeforeDeadline,discountBeforeDeadline,discountCouponRead,possibleNotices,idEmployee,idCustomer);
-                controller.setBill(bill);
-            } catch (IdBillException idBillException) {
-                idBillException.getMessage();
-            } catch (NumPersonException numPersonException) {
-                numPersonException.getMessage();
-            }
-
-
-            // on créer les composants des Listings
-            ArrayList<Listing> listings = new ArrayList<>();
-            Listing listing;
-
-            for(int i=0;i<listingArticles.getRowCount();i++){
-                try {
-                    listing = new Listing(Integer.valueOf(listingArticles.getValueAt(i,1).toString()),
-                            Double.parseDouble(listingArticles.getValueAt(i,2).toString()),
-                            numBill,
-                            controller.getIdArticle(listingArticles.getValueAt(i,0).toString()));
-                    listings.add(listing);
-                } catch (QuantityException quantityException) {
-                    quantityException.printStackTrace();
-                } catch (PriceException priceException) {
-                    priceException.printStackTrace();
-                } catch (IdArticleException idArticleException) {
-                    idArticleException.printStackTrace();
-                } catch (IdBillException idBillException) {
-                    idBillException.printStackTrace();
+                numBill = Integer.valueOf(idTextField.getText());
+                dateBill = new GregorianCalendar(controller.getYearJSPinner(dateSpinner),controller.getMonthJSPinner(dateSpinner),controller.getDayOfTheMonthJSPinner(dateSpinner));
+                isDiscountBeforeDeadline = discountDeadLineCheckBox.isSelected();
+                if(isDiscountBeforeDeadline){
+                    discountBeforeDeadline = Double.parseDouble(discountDeadLineValue.getSelectedItem().toString());
                 }
+                if(!discountCoupon.getText().equals("")){
+                    discountCouponRead = Integer.valueOf(discountCoupon.getText());
+                }
+                if(!notices.getText().equals("")){
+                    possibleNotices = notices.getText();
+                }
+                idEmployee = controller.getIdEmployee(employeeComboBox.getSelectedItem().toString());
+                idCustomer = controller.getIdCustomer(customerComboBox.getSelectedItem().toString());
+
+                try {
+                    bill = new Bill(numBill,dateBill,isDiscountBeforeDeadline,discountBeforeDeadline,discountCouponRead,possibleNotices,idEmployee,idCustomer);
+                    controller.setBill(bill);
+                } catch (IdBillException idBillException) {
+                    idBillException.getMessage();
+                } catch (NumPersonException numPersonException) {
+                    numPersonException.getMessage();
+                }
+
+
+                // on créer les composants des Listings
+                ArrayList<Listing> listings = new ArrayList<>();
+                Listing listing;
+
+                for(int i=0;i<listingArticles.getRowCount();i++){
+                    try {
+                        listing = new Listing(Integer.valueOf(listingArticles.getValueAt(i,1).toString()),
+                                Double.parseDouble(listingArticles.getValueAt(i,2).toString()),
+                                numBill,
+                                controller.getIdArticle(listingArticles.getValueAt(i,0).toString()));
+                        listings.add(listing);
+                    } catch (QuantityException quantityException) {
+                        quantityException.printStackTrace();
+                    } catch (PriceException priceException) {
+                        priceException.printStackTrace();
+                    } catch (IdArticleException idArticleException) {
+                        idArticleException.printStackTrace();
+                    } catch (IdBillException idBillException) {
+                        idBillException.printStackTrace();
+                    }
+                }
+                try {
+                    controller.setListings(listings);
+                } catch (SetListingsException setListingsException) {
+                    setListingsException.printStackTrace();
+                }
+                JOptionPane.showMessageDialog(null,"La commande est validé et encodée","Etat de la commande",JOptionPane.INFORMATION_MESSAGE);
+                NewBillRegistrationForm.this.addArticleButton.setEnabled(false);
+                NewBillRegistrationForm.this.validateButton.setEnabled(false);
+                NewBillRegistrationForm.this.repaint();
+            }
             }
 
-            try {
-                controller.setListings(listings);
-            } catch (SetListingsException setListingsException) {
-                setListingsException.printStackTrace();
+    }
+    private class TotalButtonListener implements ActionListener{
+        private Boolean inUse = false;
+        private PointsWindow pointsWindow;
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(!inUse){
+                pointsWindow = new PointsWindow(NewBillRegistrationForm.this);
+                inUse = true;
             }
+            else{
+               pointsWindow.dispose();
+               inUse = false;
+            }
+
         }
     }
 
@@ -326,19 +374,10 @@ public class NewBillRegistrationForm extends JPanel {
         RowListing rowListing = new RowListing(article.getWording(),quantity, article.getPrice(), totalPriceWVAT, article.getVAT(), totalPriceWVAT + (totalPriceWVAT * article.getVAT()));
 
         myTableModel.setRow(rowListing);
-
-        nbArticles++;
         listingArticles.repaint();
     }
-    public void upDateTotalPrice(Article article){ // à refaire et à terminer
-        Double totalPrice;
-        if(totalPriceBill.getSelectedText() == null){
-            totalPrice = 0.0;
-        }
-        else{
-            totalPrice = Double.parseDouble(totalPriceBill.getSelectedText());
-        }
-        totalPrice += article.getPrice();
-        totalPriceBill.setText(totalPrice.toString());
+    public void incTotalBill(double value){
+        value = (Double)(Math.round(value * 10000.0)/ 10000.0);
+        this.totalBill += value;
     }
 }

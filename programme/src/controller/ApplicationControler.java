@@ -5,6 +5,7 @@ import exception.*;
 import model.originalDBClasse.*;
 import model.tableModelTool.SearchOne;
 import model.tableModelTool.SearchThree;
+import model.tableModelTool.SearchTwo;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class ApplicationControler {
     public Integer getNextIdBill() throws GetNextIdBillException {
         return manager.getNextIdBill();
     }
-    public ArrayList<Article> getAllArticles() throws GetAllArticlesException {
+    public ArrayList<Article> getAllArticles() throws GetAllArticlesException, VATException, IdArticleException, PriceException, NumAisleException {
         return manager.getAllArticles();
     }
 
@@ -58,7 +59,7 @@ public class ApplicationControler {
         return manager.getIdCustomer(idFirstAndLastNameCustomer);
     }
 
-    public void setBill(Bill bill) {
+    public void setBill(Bill bill) throws IdBillException {
         manager.setBill(bill);
     }
 
@@ -74,7 +75,23 @@ public class ApplicationControler {
         return manager.getSearchOne(firstDate,lastDate,idCustomer);
     }
 
-    public ArrayList<SearchThree> getSearchThree(Integer idArticle) {
+    public ArrayList<SearchThree> getSearchThree(Integer idArticle) throws GetSearchThreeException {
         return manager.getSearchThree(idArticle);
+    }
+
+    public ArrayList<SearchTwo> getSearchTwo(GregorianCalendar firstDateRead, GregorianCalendar lastDateRead) {
+        return manager.getSearchTwo(firstDateRead,lastDateRead);
+    }
+
+    public ArrayList<Bill> getBill(Integer idBill) throws NumPersonException, IdBillException, GetBillException {
+        return manager.getBill(idBill);
+    }
+
+    public ArrayList<Listing> getListings(Integer idBill) {
+        return manager.getListings(idBill);
+    }
+
+    public Boolean deleteBill(Integer idBill) throws DeleteBillException {
+        return manager.deleteBill(idBill);
     }
 }

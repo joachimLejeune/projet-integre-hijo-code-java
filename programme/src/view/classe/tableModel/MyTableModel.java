@@ -73,13 +73,8 @@ public class MyTableModel extends AbstractTableModel {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         RowListing row = rowListings.get(rowIndex);
         switch(columnIndex){
-            case 1 : row.setQuantity((Integer) aValue);
-//            case 2 : row.setUnitPriceWVAT((Double) aValue);
+            case 0 : row.setQuantity((Integer) aValue);
         }
     }
 
-    @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return columnIndex == 1;
-    }
 }

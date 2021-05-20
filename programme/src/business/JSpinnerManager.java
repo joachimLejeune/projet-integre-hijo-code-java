@@ -34,8 +34,8 @@ public class JSpinnerManager {
                 return 10;
             case "Dec" :
                 return 11;
+            default: return 118218;
         }
-        return 118218;
     }
     public int getDayOfTheMonthJSPinner(JSpinner dateSpinner) {
         return Integer.valueOf(dateSpinner.getValue().toString().substring(8,10));

@@ -1,7 +1,7 @@
 package view.classe.window;
 
 import controller.ApplicationControler;
-import exception.GetAllArticlesException;
+import exception.*;
 import model.originalDBClasse.Article;
 import view.classe.form.NewBillRegistrationForm;
 
@@ -20,7 +20,7 @@ public class ResearchArticleWindow extends JFrame {
     private NewBillRegistrationForm newBillRegistrationForm;
     private ApplicationControler controller;
 
-    public ResearchArticleWindow(NewBillRegistrationForm newBillRegistrationForm) throws GetAllArticlesException {
+    public ResearchArticleWindow(NewBillRegistrationForm newBillRegistrationForm) throws GetAllArticlesException, VATException, IdArticleException, PriceException, NumAisleException {
         super("Recherche d'un article");
         setBounds(400,200,400,150);
 
@@ -68,10 +68,12 @@ public class ResearchArticleWindow extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             String wordingSelected = (String)researchArticleWindow.articlesChoiceComboBox.getSelectedItem();
+
             for(Article articleRead : articles){
                 if(articleRead.getWording().equals(wordingSelected)){
+                    double articlePrice = articleRead.getPrice() * (1+ articleRead.getVAT()) * Double.parseDouble(researchArticleWindow.quantityArticle.getSelectedItem().toString());
                     newBillRegistrationForm.addArticleInListingTable(articleRead,Integer.valueOf(researchArticleWindow.quantityArticle.getSelectedItem().toString()));
-//                    newBillRegistrationForm.upDateTotalPrice(articleRead);
+                    newBillRegistrationForm.incTotalBill(articlePrice);
                 }
             }
         }

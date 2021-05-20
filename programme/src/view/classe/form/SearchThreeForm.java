@@ -1,8 +1,7 @@
 package view.classe.form;
 
 import controller.ApplicationControler;
-import exception.GetAllArticlesException;
-import exception.IdArticleException;
+import exception.*;
 import model.originalDBClasse.Article;
 import model.originalDBClasse.Customer;
 import model.tableModelTool.SearchOne;
@@ -31,7 +30,7 @@ public class SearchThreeForm extends JPanel {
     ArrayList<SearchThree> rowSearchThrees = new ArrayList<>();
     MySearchThreeTableModel mySearchThreeTableModel;
 
-    public SearchThreeForm() throws GetAllArticlesException {
+    public SearchThreeForm() throws GetAllArticlesException, VATException, IdArticleException, PriceException, NumAisleException {
         this.setLayout(new BorderLayout());
         researchValues = new JPanel();
         researchValues.setLayout(new BorderLayout());
@@ -89,7 +88,7 @@ public class SearchThreeForm extends JPanel {
                 else{
                     mySearchThreeTableModel.setRowSearchThree(customerSearchThrees);
                 }
-            } catch (IdArticleException idArticleException) {
+            } catch (IdArticleException | GetSearchThreeException idArticleException) {
                 idArticleException.printStackTrace();
             }
             searchThreeForm.repaint();
