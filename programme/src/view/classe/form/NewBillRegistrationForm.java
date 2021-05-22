@@ -193,6 +193,17 @@ public class NewBillRegistrationForm extends JPanel {
         discountCouponLabel = new JLabel("Coupon de réduction :");
         discountCoupon = new JTextField();
         discountCoupon.setColumns(6);
+        // on met un listener qui va check si ce qu'on entre dedans est bien un int
+        discountCoupon.addKeyListener(new java.awt.event.KeyAdapter(){
+            public void keyTyped(KeyEvent evt) {
+                char c = evt.getKeyChar();
+                //le caractère est numérique
+                if(!(c >= '0' && c <= '9')){
+                    JOptionPane.showMessageDialog(null, "Le coupon doit contenir uniquement des chiffres","Attention",JOptionPane.WARNING_MESSAGE);
+                    evt.consume();
+                }
+            }
+        });
 
         discountDeadLineGroup.add(discountDeadLineLabel);
         discountDeadLineGroup.add(discountDeadLineCheckBox);
