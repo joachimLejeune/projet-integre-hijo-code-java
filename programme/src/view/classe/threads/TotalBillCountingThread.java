@@ -17,7 +17,7 @@ public class TotalBillCountingThread extends Thread {
                 counterPanelForm.repaint();
             }
             catch (Exception exception){
-                exception.printStackTrace();
+                exception.getMessage();
             }
         }
     }

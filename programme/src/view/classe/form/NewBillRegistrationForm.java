@@ -370,14 +370,14 @@ public class NewBillRegistrationForm extends JPanel {
 
     // methodes
     public void addArticleInListingTable(Article article, Integer quantity){
-        Double totalPriceWVAT = (Double)(article.getPrice()) * quantity;
-        RowListing rowListing = new RowListing(article.getWording(),quantity, article.getPrice(), totalPriceWVAT, article.getVAT(), totalPriceWVAT + (totalPriceWVAT * article.getVAT()));
+        Double totalPriceWVAT = article.getPrice() * quantity;
+        Double totalPrice = totalPriceWVAT + (totalPriceWVAT * article.getVAT());
+        RowListing rowListing = new RowListing(article.getWording(),quantity, article.getPrice(), totalPriceWVAT, article.getVAT(), totalPrice);
 
         myTableModel.setRow(rowListing);
         listingArticles.repaint();
     }
     public void incTotalBill(double value){
-        value = (Double)(Math.round(value * 10000.0)/ 10000.0);
         this.totalBill += value;
     }
 }

@@ -71,8 +71,10 @@ public class ResearchArticleWindow extends JFrame {
 
             for(Article articleRead : articles){
                 if(articleRead.getWording().equals(wordingSelected)){
-                    double articlePrice = articleRead.getPrice() * (1+ articleRead.getVAT()) * Double.parseDouble(researchArticleWindow.quantityArticle.getSelectedItem().toString());
+
                     newBillRegistrationForm.addArticleInListingTable(articleRead,Integer.valueOf(researchArticleWindow.quantityArticle.getSelectedItem().toString()));
+
+                    double articlePrice = articleRead.getPrice() * (1+ articleRead.getVAT()) * Double.parseDouble(researchArticleWindow.quantityArticle.getSelectedItem().toString());
                     newBillRegistrationForm.incTotalBill(articlePrice);
                 }
             }
