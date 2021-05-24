@@ -90,9 +90,9 @@ public class SearchTwoForm extends JPanel {
             GregorianCalendar lastDateRead = new GregorianCalendar(controller.getYearJSPinner(searchTwoForm.lastDate),controller.getMonthJSPinner(searchTwoForm.lastDate),
                     controller.getDayOfTheMonthJSPinner(searchTwoForm.lastDate));
             ArrayList<SearchTwo> topThreeInformations = new ArrayList<>();
-//            topThreeInformations = controller.getSearchTwo(firstDateRead, lastDateRead);
+            topThreeInformations = controller.getSearchTwo(firstDateRead, lastDateRead);
             if(topThreeInformations.size() == 0){
-                JOptionPane.showMessageDialog(null, "personne n'as vendu pendant cette période");
+                JOptionPane.showMessageDialog(null, "Personne n'as vendu pendant cette période");
             }
             else{
                 mySearchTwoTableModel.setRowSearchTwos(topThreeInformations);

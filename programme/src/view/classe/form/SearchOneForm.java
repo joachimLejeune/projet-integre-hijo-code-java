@@ -36,7 +36,7 @@ public class SearchOneForm extends JPanel {
         researchValues = new JPanel();
         researchValues.setLayout(new GridLayout(4,2));
 
-        indicationLabel = new JLabel("Choississez le client :");
+        indicationLabel = new JLabel("Choisissez le client :");
         customerServedComboBox = new JComboBox();
         validateButton = new JButton("Rechercher");
         firstDateLabel = new JLabel("Début de la période recherchée");

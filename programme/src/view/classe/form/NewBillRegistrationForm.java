@@ -5,14 +5,12 @@ import exception.*;
 import model.originalDBClasse.*;
 import model.tableModelTool.RowListing;
 import view.classe.tableModel.MyTableModel;
-import view.classe.window.PointsWindow;
+import view.classe.window.TotalBillWindow;
 import view.classe.window.ResearchArticleWindow;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
@@ -24,6 +22,7 @@ public class NewBillRegistrationForm extends JPanel {
     private static final String companyAddress = "Rue de la Joyeuseté 42, 5000 Namur";
     private ApplicationControler controller; // servira à la communication avec la couche en dessous
     private double totalBill = 0.0;
+    private Container mainContainer;
     JLabel idLabel, addressLabel, dateLabel, employeeLabel, customerLabel,totalPriceBillLabel,discountDeadLineLabel,discountCouponLabel,noticesLabel;
     JTextField idTextField, adressTextField,totalPriceBill,discountCoupon;
     JSpinner dateSpinner;
@@ -47,8 +46,8 @@ public class NewBillRegistrationForm extends JPanel {
 
 
     // constructeur
-    public NewBillRegistrationForm(){
-
+    public NewBillRegistrationForm(Container mainContainer){
+        this.mainContainer = mainContainer;
         this.setLayout(new BorderLayout());
         informationsFormPanel = new JPanel();
         informationsFormPanel.setLayout(new GridLayout(5,2,5,5));
@@ -137,24 +136,11 @@ public class NewBillRegistrationForm extends JPanel {
     public JPanel ArticlesButtonsFormPanelBuild(){
 
         addArticleButton = new JButton("Ajouter un article");
-        modArticleButton = new JButton("Modifier un article");
-        modArticleButton.setEnabled(false);
-        delArticleButton = new JButton("Supprimer un article");
-        delArticleButton.setEnabled(false);
-
         // on gère le clic sur ajouter un article
         AddArticleListener addArticleListener = new AddArticleListener();
         addArticleButton.addActionListener(addArticleListener);
 
-        // on gère le clic sur modifier un article
-        ModArticleListener modArticleListener = new ModArticleListener();
-        modArticleButton.addActionListener(modArticleListener);
-
-
-        articlesButtonsFormPanel.add(addArticleButton,BorderLayout.WEST);
-        articlesButtonsFormPanel.add(modArticleButton,BorderLayout.CENTER);
-        articlesButtonsFormPanel.add(delArticleButton,BorderLayout.EAST);
-
+        articlesButtonsFormPanel.add(addArticleButton,BorderLayout.CENTER);
 
         return articlesButtonsFormPanel;
     }
@@ -278,12 +264,6 @@ public class NewBillRegistrationForm extends JPanel {
             }
         }
     }
-    private class ModArticleListener implements ActionListener{
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            // à implémenter
-        }
-    }
     private class ValidateButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -354,21 +334,21 @@ public class NewBillRegistrationForm extends JPanel {
                 } catch (SetListingsException setListingsException) {
                     setListingsException.printStackTrace();
                 }
-                JOptionPane.showMessageDialog(null,"La commande est validé et encodée","Etat de la commande",JOptionPane.INFORMATION_MESSAGE);
-                NewBillRegistrationForm.this.addArticleButton.setEnabled(false);
-                NewBillRegistrationForm.this.validateButton.setEnabled(false);
-                NewBillRegistrationForm.this.repaint();
+                JOptionPane.showMessageDialog(null,"La commande est validée et encodée","Etat de la commande",JOptionPane.INFORMATION_MESSAGE);
+                mainContainer.removeAll();
+                mainContainer.add(new NewBillRegistrationForm(mainContainer));
+                mainContainer.revalidate();
             }
             }
 
     }
     private class TotalButtonListener implements ActionListener{
         private Boolean inUse = false;
-        private PointsWindow pointsWindow;
+        private TotalBillWindow pointsWindow;
         @Override
         public void actionPerformed(ActionEvent e) {
             if(!inUse){
-                pointsWindow = new PointsWindow(NewBillRegistrationForm.this);
+                pointsWindow = new TotalBillWindow(NewBillRegistrationForm.this);
                 inUse = true;
             }
             else{

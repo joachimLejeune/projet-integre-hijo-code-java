@@ -164,22 +164,29 @@ public class BillDBAccess  implements BillDataAccess {
     }
     public ArrayList<SearchTwo> getSearchTwo(GregorianCalendar firstDateRead, GregorianCalendar lastDateRead) {
         ArrayList<SearchTwo> topThreeInformations = new ArrayList<>();
-//        SearchTwo searchTwo;
-//        if(connection != null){
-//            try{
-//                String sqlInstruction = "";
-//                PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-//                PreparedStatement.setDate(1,new java.sql.Date(firstDateRead.getTimeInMillis()));
-//                PreparedStatement.setDate(2,new java.sql.Date(lastDateRead.getTimeInMillis()));
-//                ResultSet data = preparedStatement.executeQuery();
-//                while(data.next()){
-//                    searchTwo = new SearchTwo(data.getString("first_name"),data.getString("last_name"),data.getString("wording"),data.getInt("quantity"));
-//                    topThreeInformations.add(searchTwo);
-//                }
-//            }catch(SQLException e){
-//                e.printStackTrace(); // à modifier à la fin
-//            }
-//        }
+        SearchTwo searchTwo;
+        if(connection != null){
+            try{
+                String sqlInstruction = "select e.first_name, e.last_name from article a " +
+                        " join listing l on a.id_article = l.article " +
+                        " join bill b on l.bill = b.id_bill" +
+                        " join employee e on b.employee = e.num_employee" +
+                        " where date_bill between ? and ?" +
+                        " group by e.last_name" +
+                        " order by sum(l.quantity*l.price) desc" +
+                        " limit 3;";
+                PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+                preparedStatement.setDate(1,new java.sql.Date(firstDateRead.getTimeInMillis()));
+                preparedStatement.setDate(2,new java.sql.Date(lastDateRead.getTimeInMillis()));
+                ResultSet data = preparedStatement.executeQuery();
+                while(data.next()){
+                    searchTwo = new SearchTwo(data.getString("first_name"),data.getString("last_name"));
+                    topThreeInformations.add(searchTwo);
+                }
+            }catch(SQLException e){
+                e.printStackTrace(); // à modifier à la fin
+            }
+        }
         return topThreeInformations;
     }
     public ArrayList<SearchThree> getSearchThree(Integer idArticle) throws GetSearchThreeException {
@@ -261,6 +268,26 @@ public class BillDBAccess  implements BillDataAccess {
             }
         }
         return listings;
+    }
+    public ArrayList<Integer> getAllIdBill() throws GetAllIdBillsException {
+        ArrayList<Integer> idsList = new ArrayList<>();
+        Integer idBill;
+
+        if(connection!=null){
+            try{
+                String sqlInstruction = "select id_bill from bill order by id_bill";
+                PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+                ResultSet data = preparedStatement.executeQuery();
+                while(data.next()){
+                    idsList.add(data.getInt("id_bill"));
+                }
+            }
+            catch(SQLException e){
+                throw new GetAllIdBillsException();
+            }
+        }
+        return idsList;
+
     }
 
 

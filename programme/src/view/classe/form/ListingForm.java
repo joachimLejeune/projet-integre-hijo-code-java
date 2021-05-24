@@ -1,7 +1,7 @@
 package view.classe.form;
 
 import controller.ApplicationControler;
-import exception.DeleteBillException;
+import exception.GetAllIdBillsException;
 import exception.GetBillException;
 import exception.IdBillException;
 import exception.NumPersonException;
@@ -16,12 +16,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
-public class DeleteBillForm extends JPanel {
+public class ListingForm extends JPanel {
     private JLabel idBillLabel;
-    private JTextField idBillTextField;
+    private JComboBox idBillComboBox;
     private JButton validateButton;
-    private JButton deleteButton;
     private JTable billTable;
     private JTable listingsTable;
     private JPanel searchInfosPanel;
@@ -40,18 +40,16 @@ public class DeleteBillForm extends JPanel {
     MyListingTableModel myListingTableModel;
 
 
-
-    public DeleteBillForm(Container maincontainer){
-        this.mainContainer = maincontainer;
+    public ListingForm() throws GetAllIdBillsException {
         this.setLayout(new BorderLayout());
         searchInfosPanel = new JPanel();
-        idBillLabel = new JLabel("Numéro de la facture a supprimer");
-        idBillTextField = new JTextField();
+        idBillLabel = new JLabel("Numéro de la facture a lister");
+        idBillComboBox = new JComboBox();
         validateButton = new JButton("Valider");
 
         searchInfosPanel.setLayout(new GridLayout(1,3,5,5));
         searchInfosPanel.add(idBillLabel);
-        searchInfosPanel.add(idBillTextField);
+        searchInfosPanel.add(idBillComboBox);
         searchInfosPanel.add(validateButton);
 
         this.add(searchInfosPanel,BorderLayout.NORTH);
@@ -80,28 +78,29 @@ public class DeleteBillForm extends JPanel {
 
         this.add(summariesInformationPanel, BorderLayout.CENTER);
 
-        deleteButton = new JButton("Supprimer");
-        deleteButton.setEnabled(false);
-        this.add(deleteButton,BorderLayout.SOUTH);
 
         // on gère le clic sur le bouton validé
         ValidateButtonListener validateButtonListener = new ValidateButtonListener();
         validateButton.addActionListener(validateButtonListener);
 
         setController(new ApplicationControler());
-    }
 
-    // setter
+        ArrayList<Integer> allIdBills = controller.getAllIdBill();
+        for(Integer idBill : allIdBills){
+            idBillComboBox.addItem(idBill);
+        }
+
+    }
     private void setController(ApplicationControler applicationControler) {
         this.controller = applicationControler;
     }
 
     // listener
-    private class ValidateButtonListener implements ActionListener{
+    private class ValidateButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             try{
-                Integer idBill = Integer.valueOf(idBillTextField.getText());
+                Integer idBill = Integer.valueOf(idBillComboBox.getSelectedItem().toString());
                 summaryBill = controller.getBill(idBill);
 
                 if(summaryBill.size() == 0){
@@ -115,11 +114,6 @@ public class DeleteBillForm extends JPanel {
 
                     summariesInformationPanel.repaint();
 
-                    deleteButton.setEnabled(true);
-
-                    // on gère le clic sur le boutton supprimer
-                    DeleteButtonListener deleteButtonListener = new DeleteButtonListener(idBill);
-                    deleteButton.addActionListener(deleteButtonListener);
                 }
             }catch(NumberFormatException numberFormatException){
                 JOptionPane.showMessageDialog(null,"Ce que vous avez mis en numéro de facture n'est pas correct");
@@ -130,17 +124,6 @@ public class DeleteBillForm extends JPanel {
             } catch (NumPersonException numPersonException) {
                 numPersonException.getMessage();
             }
-        }
-    }
-    // à terminer
-    private class DeleteButtonListener implements ActionListener{
-        private Integer idBill;
-        public DeleteButtonListener(Integer idBill){
-            this.idBill = idBill;
-        }
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            ConfirmationWindow confirmationWindow = new ConfirmationWindow(idBill, mainContainer);
         }
     }
 }

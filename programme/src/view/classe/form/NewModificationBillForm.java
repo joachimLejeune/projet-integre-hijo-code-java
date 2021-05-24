@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class NewModificationBillForm extends JPanel { // en cours de modification mais sans la feature de modification d'une facture de NewBillRegistrationForm je sais pas aller plus loin
+public class NewModificationBillForm extends JPanel { // en cours de modification mais sans la feature de modification d'une facture de NewBillRegistrationForm, la fonctionnalité est en attente
 
     private JPanel informationsFormPanel;
     private JPanel articlesButtonsFormPanel;

@@ -74,9 +74,10 @@ public class BillManager {
     public ArrayList<Listing> getListings(Integer idBill) {
         return dao.getListings(idBill);
     }
-    public Boolean deleteBill(Integer idBill) throws DeleteBillException {
-        return dao.deleteBill(idBill);
+    public ArrayList<Integer> getAllIdBill() throws GetAllIdBillsException {
+        return dao.getAllIdBill();
     }
+
 
     // setter
     public void setDao(BillDBAccess dao) {
@@ -89,6 +90,10 @@ public class BillManager {
         dao.setListings(listings);
     }
 
+    // méthodes
+    public Boolean deleteBill(Integer idBill) throws DeleteBillException {
+        return dao.deleteBill(idBill);
+    }
 
 
 }

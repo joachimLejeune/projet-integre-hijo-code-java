@@ -35,7 +35,7 @@ public class SearchThreeForm extends JPanel {
         researchValues = new JPanel();
         researchValues.setLayout(new BorderLayout());
 
-        indicationLabel = new JLabel("Choississez l'article :");
+        indicationLabel = new JLabel("Choisissez l'article :");
         articleChoiceComboBox = new JComboBox();
         validateButton = new JButton("Rechercher");
 

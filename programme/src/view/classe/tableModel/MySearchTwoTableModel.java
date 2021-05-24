@@ -16,8 +16,9 @@ public class MySearchTwoTableModel extends AbstractTableModel {
         columnNames = new ArrayList<>();
         columnNames.add("Prénom");
         columnNames.add("Nom");
-        columnNames.add("Libellé");
-        columnNames.add("Quantité");
+//        demander dans l'enoncé de base, mais impossible à afficher pour l'instant
+//        columnNames.add("Libellé");
+//        columnNames.add("Quantité");
         setRowSearchTwos(rowSearchTwos);
     }
     public void setRowSearchTwos(ArrayList<SearchTwo> rowSearchTwos) {
@@ -47,15 +48,15 @@ public class MySearchTwoTableModel extends AbstractTableModel {
         switch (columnIndex){
             case 0 : return rowSearchTwo.getFirstName();
             case 1 : return rowSearchTwo.getLastName();
-            case 2 : return rowSearchTwo.getWording();
-            case 3 : return rowSearchTwo.getQuantity();
+//            case 2 : return rowSearchTwo.getWording();
+//            case 3 : return rowSearchTwo.getQuantity();
             default : return null;
         }
     }
     public Class getColumnClass(int column){
         Class c;
         switch (column) {
-            case 2: return GregorianCalendar.class;
+//            case 3: return Integer.class;
             default: return String.class;
         }
     }

@@ -25,7 +25,7 @@ public class ResearchArticleWindow extends JFrame {
         setBounds(400,200,400,150);
 
         this.newBillRegistrationForm = newBillRegistrationForm;
-        indicationLabel = new JLabel("Choississez un article à ajouter à votre facture :");
+        indicationLabel = new JLabel("Choisissez un article à ajouter à votre facture :");
         quantityArticleLabel = new JLabel("Quantité : ");
         articlesChoiceComboBox = new JComboBox();
         quantityArticle = new JComboBox(new String[]{"1","2","3","4","5","6","7","8","9","10"});

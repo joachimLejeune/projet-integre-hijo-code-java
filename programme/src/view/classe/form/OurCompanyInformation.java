@@ -1,23 +1,22 @@
 package view.classe.form;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 public class OurCompanyInformation extends JPanel {
-    private JLabel adress;
-    private JLabel townPostalCode;
-    private JLabel phone;
+
 
     public OurCompanyInformation() {
-        this.setLayout(new FlowLayout());
-        adress = new JLabel("Rue de la Joyeuseté 42");
-        townPostalCode = new JLabel("5000 Namur");
-        phone = new JLabel("081 81 81 81");
-        adress.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-        townPostalCode.setBorder(BorderFactory.createLineBorder(Color.ORANGE));
-        phone.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-        this.add(adress);
-        this.add(townPostalCode);
-        this.add(phone);
+        this.setLayout(new BorderLayout());
+
+        JLabel informations = new JLabel("<html>" +
+                " <p> Hijo Brico SA </p>" +
+                " <p> Rue de la Joyeuseté 42 </p>" +
+                " <p> 5000 Namur </p>" +
+                " <p> 081 81 81 81 </p>" +
+                " </html>");
+        informations.setHorizontalAlignment(SwingConstants.CENTER);
+        this.add(informations,BorderLayout.CENTER);
     }
 }

@@ -26,4 +26,6 @@ public interface BillDataAccess {
     // setter
     void setBill(Bill bill) throws IdBillException;
     void setListings(ArrayList<Listing> listings) throws SetListingsException;
+
+    ArrayList<Integer> getAllIdBill() throws GetAllIdBillsException;
 }

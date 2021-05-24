@@ -94,4 +94,8 @@ public class ApplicationControler {
     public Boolean deleteBill(Integer idBill) throws DeleteBillException {
         return manager.deleteBill(idBill);
     }
+
+    public ArrayList<Integer> getAllIdBill() throws GetAllIdBillsException {
+        return manager.getAllIdBill();
+    }
 }

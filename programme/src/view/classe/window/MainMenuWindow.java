@@ -1,8 +1,6 @@
 package view.classe.window;
 
 import exception.*;
-import model.tableModelTool.SearchThree;
-import model.tableModelTool.SearchTwo;
 import view.classe.form.*;
 
 import javax.swing.*;
@@ -19,6 +17,7 @@ public class MainMenuWindow extends JFrame {
     private JMenu billMenu;
     private JMenu searchMenu;
     private JMenu infosMenu;
+    private JMenuItem listingMenu;
     private JMenuItem exitMenu;
     private JMenuItem newBillMenu;
     private JMenuItem modificationBillMenu;
@@ -51,9 +50,10 @@ public class MainMenuWindow extends JFrame {
 
         // Menu application
         applicationMenu = new JMenu("Application");
+        listingMenu = new JMenuItem("Listing");
         exitMenu = new JMenuItem("Quitter");
+        applicationMenu.add(listingMenu);
         applicationMenu.add(exitMenu);
-        applicationMenu.setMnemonic('F');
         menuBar.add(applicationMenu);
 
         // Menu facture
@@ -73,7 +73,7 @@ public class MainMenuWindow extends JFrame {
         searchMenu = new JMenu("Recherches");
         search1 = new JMenuItem("Recherche d'employés");
         search2 = new JMenuItem("Top 3 des employés");
-        search2.setEnabled(false);
+        search2.setEnabled(true);
         search3 = new JMenuItem("Recherche client cible");
         searchMenu.add(search1);
         searchMenu.add(search2);
@@ -89,6 +89,10 @@ public class MainMenuWindow extends JFrame {
         infosMenu.setMnemonic('H');
         menuBar.add(infosMenu);
 
+
+        // on gère le clic sur listing
+        ListingListener listingListener = new ListingListener();
+        listingMenu.addActionListener(listingListener);
 
         // on gère le clic sur quitter
         ExitListener exitListener = new ExitListener();
@@ -144,6 +148,22 @@ public class MainMenuWindow extends JFrame {
     // setters
 
     // listeners
+    private class ListingListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            setBounds(550,200,900,300);
+            ListingForm listingForm = null;
+            try {
+                listingForm = new ListingForm();
+            } catch (GetAllIdBillsException getAllIdBillsException) {
+                getAllIdBillsException.printStackTrace();
+            }
+            mainContainer.removeAll();
+            mainContainer.add(listingForm);
+            mainContainer.repaint();
+            setVisible(true);
+        }
+    }
     private class ExitListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -154,6 +174,7 @@ public class MainMenuWindow extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             OurCompanyInformation ourCompanyInformation = new OurCompanyInformation();
+            setBounds(750,200,400,200);
             mainContainer.removeAll();
             mainContainer.add(ourCompanyInformation);
             mainContainer.repaint();
@@ -171,7 +192,7 @@ public class MainMenuWindow extends JFrame {
         public void actionPerformed(ActionEvent e) {
 
             setBounds(625,125,735,735);
-            NewBillRegistrationForm newBillRegistrationForm = new NewBillRegistrationForm();
+            NewBillRegistrationForm newBillRegistrationForm = new NewBillRegistrationForm(mainContainer);
             mainContainer.removeAll();
             mainContainer.add(newBillRegistrationForm);
             mainContainer.repaint();
@@ -193,7 +214,7 @@ public class MainMenuWindow extends JFrame {
     private class DeleteBillListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            DeleteBillForm deleteBillForm = new DeleteBillForm();
+            DeleteBillForm deleteBillForm = new DeleteBillForm(mainContainer);
             setBounds(750,200,900,300);
             mainContainer.removeAll();
             mainContainer.add(deleteBillForm);
